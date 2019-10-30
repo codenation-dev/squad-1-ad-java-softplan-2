@@ -1,5 +1,8 @@
 # squad-1-ad-java-softplan-2
 
+# Endpoints
+http://localhost:8080/swagger-ui.html
+
 # gitflow
 https://www.campingcoder.com/2018/04/how-to-use-git-flow/
 
@@ -49,13 +52,13 @@ Modelo
 ##############################
 
 
-Application
-    resources -> service -> model
+resources -> service -> model
 
-Domain
+Application
     service (gerenciar fluxo)
         chamar model
-        
+
+Domain
     model (logica) 
         Log
             -salvarLog
