@@ -1,5 +1,8 @@
 # squad-1-ad-java-softplan-2
 
+# Para importar projeto no eclipse
+Import > Maven > Existing Maven Projects
+
 # Endpoints
 http://localhost:8080/swagger-ui.html
 
@@ -65,6 +68,7 @@ Domain
             -removerLog
 
 Infraestrutura
+    rs (resources)
     util
     exceptions
     bean
