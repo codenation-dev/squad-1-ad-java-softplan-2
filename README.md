@@ -1,5 +1,11 @@
 # squad-1-ad-java-softplan-2
 
+# Para importar projeto no eclipse
+Import > Maven > Existing Maven Projects
+
+# Endpoints
+http://localhost:8080/swagger-ui.html
+
 # gitflow
 https://www.campingcoder.com/2018/04/how-to-use-git-flow/
 
@@ -49,19 +55,20 @@ Modelo
 ##############################
 
 
-Application
-    resources -> service -> model
+resources -> service -> model
 
-Domain
+Application
     service (gerenciar fluxo)
         chamar model
-        
+
+Domain
     model (logica) 
         Log
             -salvarLog
             -removerLog
 
 Infraestrutura
+    rs (resources)
     util
     exceptions
     bean
