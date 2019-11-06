@@ -19,14 +19,14 @@ public class LogResource {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@ApiOperation("Inserir log")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void inserir() {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	@ApiOperation("Remover log")
 	@DeleteMapping
 	public void remover() {
