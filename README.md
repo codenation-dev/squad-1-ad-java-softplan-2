@@ -1,9 +1,14 @@
 # squad-1-ad-java-softplan-2
 
-## Criar BD no Docker para rodar a aplicação, com docker-compose  
+## 1. Requisitos (instalar)
+- java 8
+- docker / docker-compose
+
+## 2. Criar BD no Docker para rodar a aplicação, com docker-compose  
+Executar comando abaixo na pasta do projeto:  
 `docker-compose up aceleradev-postgres`
    
-## Agora é possível conectar ao banco usando: 
+## 3. Agora é possível conectar ao banco usando: 
 >url=jdbc:postgresql://localhost:5432/squad1_db <br>
 username=postgres <br>
 password=postgres <br>
