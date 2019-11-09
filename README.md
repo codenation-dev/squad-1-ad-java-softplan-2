@@ -2,12 +2,12 @@
 
 # Criar BD no Docker para rodar a aplicação
 
-## 2 Formas de gerenciar o banco postgres com docker
+## Duas formas de gerenciar o banco postgres com docker
 
-1. Gerenciar container com docker-compose (recomendado)
+### 1. Gerenciar container com docker-compose (recomendado)  
 `docker-compose up aceleradev-postgres`
    
-2. Gerenciar manualmente o container (não recomendado)
+### 2. Gerenciar manualmente o container (não recomendado)  
 Usar os seguintes comandos para criar o Banco de Dados antes de iniciar a aplicação: <br>
 `docker pull postgres`
 
