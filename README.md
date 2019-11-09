@@ -1,8 +1,13 @@
 # squad-1-ad-java-softplan-2
 
+# Criar BD no Docker para rodar a aplicação
 
-### Criar BD no Docker para rodar a aplicação
+## 2 Formas de gerenciar o banco postgres com docker
 
+1. Gerenciar container com docker-compose (recomendado)
+`docker-compose up aceleradev-postgres`
+   
+2. Gerenciar manualmente o container (não recomendado)
 Usar os seguintes comandos para criar o Banco de Dados antes de iniciar a aplicação: <br>
 `docker pull postgres`
 
@@ -24,12 +29,12 @@ Sair: <br>
 `\q`
 `exit`
 
-Agora é possível conectar ao banco usando: 
+## Agora é possível conectar ao banco usando: 
 >url=jdbc:postgresql://localhost:5432/squad1_db <br>
 username=postgres <br>
 password=postgres <br>
 
-### Migrações com Flyway
+## Migrações com Flyway
 
 Intruções: https://flywaydb.org/documentation/migrations#naming
 
@@ -38,7 +43,7 @@ Para evoluir o banco de dados, criar scripts SQL dentro da pasta `db/migration` 
 - usar nomes no infinitivo;
 - separar em migrações diferentes as criações e alterações de tabela, dos inserts de dados.
 
-### Encode de senhas para salvar do BD
+## Encode de senhas para salvar do BD
 
 Criado uma classe utilitária para gerar senhas encodadas com BCrypt padrão do Spring Security. <br>
 A senha do *admin@codenation.com.br* é *admin*

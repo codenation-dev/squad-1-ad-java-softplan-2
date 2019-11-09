@@ -1,0 +1,12 @@
+version: '3'
+services:
+  aceleradev-postgres:
+    image: "postgres:latest"
+    container_name: "aceleradev-postgres"
+    environment:
+      - POSTGRES_DB=squad1_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - TZ=GMT
+    ports:
+      - "5432:5432"
