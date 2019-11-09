@@ -1,8 +1,7 @@
 # squad-1-ad-java-softplan-2
 
-# Criar BD no Docker para rodar a aplicação
-
-## Duas formas de gerenciar o banco postgres com docker
+## Criar BD no Docker para rodar a aplicação, 
+## duas formas de gerenciar o banco postgres com docker
 
 ### 1. Gerenciar container com docker-compose (recomendado)  
 `docker-compose up aceleradev-postgres`
