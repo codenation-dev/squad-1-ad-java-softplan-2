@@ -1,1 +1,0 @@
-INSERT INTO usuario (nome, email, senha) values ('Administrador', 'admin@codenation.com', '$2a$10$2Nw/efyVwMfqYb01vZqcIeoqklrqxJQYew4wQ2P0pHF7MI7IOJQ5u');
