@@ -15,7 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import br.com.codenation.squad1.log.domain.enums.Level;
 import br.com.codenation.squad1.log.domain.enums.Status;
-import br.com.codenation.squad1.usuario.domain.UserAccount;
+import br.com.codenation.squad1.user.domain.UserAccount;
 
 @Entity
 public class Log {
