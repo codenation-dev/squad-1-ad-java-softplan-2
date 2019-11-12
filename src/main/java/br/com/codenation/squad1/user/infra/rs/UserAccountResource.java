@@ -22,7 +22,7 @@ public class UserAccountResource {
 
     @ApiOperation("Cadastrar usuário na aplicação")
     @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Long create(@Valid @RequestBody final UserAccountDTO userDTO) {
-        return usuarioService.create(userDTO);
+    public Long create(@Valid @RequestBody final UserAccountDTO dto) {
+        return usuarioService.create(dto);
     }
 }

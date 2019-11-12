@@ -8,6 +8,10 @@ public class UserAccountDTO {
 
     private UserAccount user;
 
+    public UserAccountDTO() {
+        user = new UserAccount();
+    }
+
     @JsonIgnore
     public UserAccount getUserAccount() {
         return user;
