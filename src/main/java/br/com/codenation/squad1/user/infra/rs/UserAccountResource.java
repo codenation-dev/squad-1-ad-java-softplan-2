@@ -18,11 +18,11 @@ import io.swagger.annotations.ApiOperation;
 public class UserAccountResource {
 
     @Autowired
-    private UserAccountService usuarioService;
+    private UserAccountService userAccountService;
 
-    @ApiOperation("Cadastrar usuário na aplicação")
+    @ApiOperation("Create an user account")
     @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Long create(@Valid @RequestBody final UserAccountDTO dto) {
-        return usuarioService.create(dto);
+        return userAccountService.create(dto);
     }
 }

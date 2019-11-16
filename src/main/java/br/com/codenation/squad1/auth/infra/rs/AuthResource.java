@@ -11,14 +11,14 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("auth")
 public class AuthResource {
 
-	@ApiOperation("Esqueci minha senha")
-	@PostMapping(path = "esqueci-senha", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void esqueciSenha() {
+	@ApiOperation("Forgot my password")
+	@PostMapping(path = "forgot-password", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void forgotPassword() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@ApiOperation("Login na aplicação")
+	@ApiOperation("Login in application")
 	@PostMapping(path = "login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void login() {
 		// TODO Auto-generated method stub

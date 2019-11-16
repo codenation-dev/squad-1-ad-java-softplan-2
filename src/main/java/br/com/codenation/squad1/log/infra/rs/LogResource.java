@@ -13,23 +13,23 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("log")
 public class LogResource {
 
-	@ApiOperation("Buscar logs")
+	@ApiOperation("List logs")
 	@GetMapping
-	public void buscar() {
+	public void list() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@ApiOperation("Inserir log")
+	@ApiOperation("Create a log")
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void inserir() {
+	public void create() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@ApiOperation("Remover log")
+	@ApiOperation("Remove a log")
 	@DeleteMapping
-	public void remover() {
+	public void remove() {
 		// TODO Auto-generated method stub
 
 	}
