@@ -9,20 +9,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.codenation.squad1.user.service.UserAccountService;
-import br.com.codenation.squad1.user.dto.UserAccountDTO;
+import br.com.codenation.squad1.user.service.UserService;
+import br.com.codenation.squad1.user.dto.UserDTO;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("user")
-public class UserAccountResource {
+@RequestMapping("/users")
+public class UserResource {
 
     @Autowired
-    private UserAccountService userAccountService;
+    private UserService userService;
 
     @ApiOperation("Create an user account")
-    @PostMapping(path = "create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Long create(@Valid @RequestBody final UserAccountDTO dto) {
-        return userAccountService.create(dto);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Long create(@Valid @RequestBody final UserDTO dto) {
+        return userService.create(dto);
     }
 }

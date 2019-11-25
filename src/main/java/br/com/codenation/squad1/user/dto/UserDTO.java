@@ -2,23 +2,23 @@ package br.com.codenation.squad1.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.codenation.squad1.user.model.UserAccount;
+import br.com.codenation.squad1.user.model.User;
 
-public class UserAccountDTO {
+public class UserDTO {
 
-    private UserAccount user;
+    private User user;
 
-    public UserAccountDTO() {
-        user = new UserAccount();
+    public UserDTO() {
+        user = new User();
     }
 
     @JsonIgnore
-    public UserAccount getUserAccount() {
+    public User getUserAccount() {
         return user;
     }
 
-    public void setUserAccount(final UserAccount userAccount) {
-        this.user = userAccount;
+    public void setUserAccount(final User user) {
+        this.user = user;
     }
 
     public Long getId() {

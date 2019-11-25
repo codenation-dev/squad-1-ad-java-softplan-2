@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("log")
+@RequestMapping("/logs")
 public class LogResource {
 
 	@ApiOperation("List logs")

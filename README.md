@@ -7,6 +7,12 @@
 ## 2. Criar BD no Docker para rodar a aplicação, com docker-compose  
 Executar comando abaixo na pasta do projeto:  
 `docker-compose up aceleradev-postgres`
+
+Se for preciso recriar o banco devido a reescrita do flyway:
+
+`docker-compose rm --stop aceleradev-postgres`
+
+`docker-compose up aceleradev-postgres`
    
 ## 3. Agora é possível conectar ao banco usando: 
 >url=jdbc:postgresql://localhost:5432/squad1_db <br>
