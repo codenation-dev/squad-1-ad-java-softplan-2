@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.user.infra.rs;
+package br.com.codenation.squad1.user.resource;
 
 import javax.validation.Valid;
 
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.codenation.squad1.user.application.UserAccountService;
-import br.com.codenation.squad1.user.infra.dto.UserAccountDTO;
+import br.com.codenation.squad1.user.service.UserAccountService;
+import br.com.codenation.squad1.user.dto.UserAccountDTO;
 import io.swagger.annotations.ApiOperation;
 
 @RestController

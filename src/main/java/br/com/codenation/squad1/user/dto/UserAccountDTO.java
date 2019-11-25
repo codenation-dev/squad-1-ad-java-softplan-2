@@ -1,8 +1,8 @@
-package br.com.codenation.squad1.user.infra.dto;
+package br.com.codenation.squad1.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import br.com.codenation.squad1.user.domain.UserAccount;
+import br.com.codenation.squad1.user.model.UserAccount;
 
 public class UserAccountDTO {
 

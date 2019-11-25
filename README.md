@@ -22,14 +22,6 @@ Para evoluir o banco de dados, criar scripts SQL dentro da pasta `db/migration` 
 - usar nomes no infinitivo;
 - separar em migrações diferentes as criações e alterações de tabela, dos inserts de dados.
 
-## Encode de senhas para salvar do BD
-
-Criado uma classe utilitária para gerar senhas encodadas com BCrypt padrão do Spring Security. <br>
-A senha do *admin@codenation.com.br* é *admin*
-
-# Para importar projeto no eclipse
-Import > Maven > Existing Maven Projects
-
 # Endpoints
 http://localhost:8080/swagger-ui.html
 

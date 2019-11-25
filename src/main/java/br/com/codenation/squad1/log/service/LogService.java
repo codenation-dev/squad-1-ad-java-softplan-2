@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.log.application;
+package br.com.codenation.squad1.log.service;
 
 public class LogService {
 

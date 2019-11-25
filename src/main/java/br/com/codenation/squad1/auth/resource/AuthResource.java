@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.auth.infra.rs;
+package br.com.codenation.squad1.auth.resource;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

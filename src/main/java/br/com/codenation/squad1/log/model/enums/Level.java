@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.log.domain.enums;
+package br.com.codenation.squad1.log.model.enums;
 
 public enum Level {
 

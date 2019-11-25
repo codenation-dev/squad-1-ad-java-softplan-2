@@ -1,12 +1,12 @@
-package br.com.codenation.squad1.user.application;
+package br.com.codenation.squad1.user.service;
 
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.codenation.squad1.user.infra.dto.UserAccountDTO;
-import br.com.codenation.squad1.user.infra.repository.UserAccountRepository;
+import br.com.codenation.squad1.user.dto.UserAccountDTO;
+import br.com.codenation.squad1.user.repository.UserAccountRepository;
 
 @Service
 public class UserAccountService {

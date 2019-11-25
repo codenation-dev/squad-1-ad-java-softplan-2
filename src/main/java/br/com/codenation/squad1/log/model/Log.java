@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.log.domain;
+package br.com.codenation.squad1.log.model;
 
 import java.time.LocalDateTime;
 
@@ -13,9 +13,9 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.data.annotation.CreatedDate;
 
-import br.com.codenation.squad1.log.domain.enums.Level;
-import br.com.codenation.squad1.log.domain.enums.Status;
-import br.com.codenation.squad1.user.domain.UserAccount;
+import br.com.codenation.squad1.log.model.enums.Level;
+import br.com.codenation.squad1.log.model.enums.Status;
+import br.com.codenation.squad1.user.model.UserAccount;
 
 @Entity
 public class Log {

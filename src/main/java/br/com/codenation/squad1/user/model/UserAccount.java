@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.user.domain;
+package br.com.codenation.squad1.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
