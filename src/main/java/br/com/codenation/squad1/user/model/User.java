@@ -41,7 +41,8 @@ public class User {
     @Size(min = 3, max = 50)
     private String password;
 
-    @NotNull
+    // TODO verificar regra de negocio para criação de token
+    @NotBlank
     private String token;
 
     @Column(name = "created_at", nullable = false, updatable = false)
