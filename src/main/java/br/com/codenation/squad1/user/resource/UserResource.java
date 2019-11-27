@@ -2,7 +2,9 @@ package br.com.codenation.squad1.user.resource;
 
 import javax.validation.Valid;
 
-import br.com.codenation.squad1.user.dto.request.UserRegistrationDTO;
+import br.com.codenation.squad1.user.dto.request.UserRequestDTO;
+import br.com.codenation.squad1.user.dto.response.UserResponseDTO;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,15 +19,16 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/users")
+@Api(tags = {"Users"}, description = "User management endpoint")
 public class UserResource {
 
     @Autowired
     private UserService userService;
 
-    @ApiOperation("Register new user account")
+    @ApiOperation(value = "Register new user account", notes = "Use your token to register new logs")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> register(@Valid @RequestBody final UserRegistrationDTO user) {
-        userService.create(user);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody final UserRequestDTO user) {
+        UserResponseDTO registeredUser = userService.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
     }
 }
