@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.codenation</groupId>
-	<artifactId>squad-1-ad-java-softplan-2</artifactId>
+	<artifactId>softlog</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>SoftLog</name>
-	<description>Gerenciador Log</description>
+	<name>softlog</name>
+	<description>The best log central management system</description>
 
 	<properties>
 		<java.version>1.8</java.version>
