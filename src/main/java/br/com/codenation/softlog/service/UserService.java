@@ -22,7 +22,10 @@ public class UserService {
 
     public UserResponseDTO create(final UserRequestDTO userDto) {
         User user = mapper.map(userDto);
-        // TODO: Revisar sobre Token
+
+//        TODO:    - Revisar regra sobre Token
+//                 - Nomes diferentes para cada map? (toUser() e toUserResponseDTO)
+
         user.setToken(UUID.randomUUID().toString());
         User createdUser = userRepository.save(user);
         return mapper.map(createdUser);

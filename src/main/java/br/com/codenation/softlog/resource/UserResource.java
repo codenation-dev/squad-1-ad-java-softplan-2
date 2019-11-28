@@ -25,10 +25,10 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "Register new user account", notes = "Use your token to register new logs")
+    @ApiOperation(value = "Create new user account", notes = "Use your token to register new logs")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody final UserRequestDTO user) {
-        UserResponseDTO registeredUser = userService.create(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
+    public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody final UserRequestDTO user) {
+        UserResponseDTO createdUser = userService.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }

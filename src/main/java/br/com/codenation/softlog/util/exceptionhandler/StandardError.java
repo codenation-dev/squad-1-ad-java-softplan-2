@@ -1,7 +1,13 @@
 package br.com.codenation.softlog.util.exceptionhandler;
 
-import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serializable;
+import java.time.Instant;
+
+@Getter
+@Setter
 public class StandardError implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -13,41 +19,10 @@ public class StandardError implements Serializable {
 
     public StandardError(Integer status, String message, String path) {
         super();
-        this.timestamp = System.currentTimeMillis();
+        this.timestamp = Instant.now().toEpochMilli();
         this.status = status;
         this.message = message;
         this.path = path;
     }
 
-    public Long getTimestamp() {
-        return this.timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public Integer getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getPath() {
-        return this.path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
 }

@@ -25,7 +25,7 @@ public class UserRequestDTO {
 
     @NotBlank
     @Size(min = 3, max = 50)
-    @ApiModelProperty(value = "User password", position = 3, example = "g0d", required = true)
+    @ApiModelProperty(value = "User password", position = 3, example = "jesus123", required = true)
     private String password;
 
 }
