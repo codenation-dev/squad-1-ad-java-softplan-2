@@ -4,7 +4,7 @@ services:
     image: "postgres:latest"
     container_name: "aceleradev-postgres"
     environment:
-      - POSTGRES_DB=squad1_db
+      - POSTGRES_DB=softlog_db
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - TZ=GMT

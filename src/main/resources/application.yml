@@ -2,7 +2,7 @@ server.port: 8080
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/squad1_db
+    url: jdbc:postgresql://localhost:5432/softlog_db
     username: postgres
     password: postgres
   jpa:

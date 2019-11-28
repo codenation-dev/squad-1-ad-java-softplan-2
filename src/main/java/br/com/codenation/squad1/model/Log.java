@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.log.model;
+package br.com.codenation.squad1.model;
 
 import java.time.LocalDateTime;
 
@@ -7,14 +7,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.codenation.squad1.log.model.enums.Environment;
+import br.com.codenation.squad1.model.enums.Environment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
-import br.com.codenation.squad1.log.model.enums.Level;
-import br.com.codenation.squad1.log.model.enums.Status;
+import br.com.codenation.squad1.model.enums.Level;
+import br.com.codenation.squad1.model.enums.Status;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

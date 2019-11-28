@@ -1,8 +1,8 @@
-package br.com.codenation.squad1.user.mapper;
+package br.com.codenation.squad1.mapper;
 
-import br.com.codenation.squad1.user.dto.request.UserRequestDTO;
-import br.com.codenation.squad1.user.dto.response.UserResponseDTO;
-import br.com.codenation.squad1.user.model.User;
+import br.com.codenation.squad1.dto.request.UserRequestDTO;
+import br.com.codenation.squad1.dto.response.UserResponseDTO;
+import br.com.codenation.squad1.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

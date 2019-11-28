@@ -1,14 +1,14 @@
-package br.com.codenation.squad1.user.service;
+package br.com.codenation.squad1.service;
 
-import br.com.codenation.squad1.user.dto.request.UserRequestDTO;
-import br.com.codenation.squad1.user.dto.response.UserResponseDTO;
-import br.com.codenation.squad1.user.mapper.UserMapper;
+import br.com.codenation.squad1.dto.request.UserRequestDTO;
+import br.com.codenation.squad1.dto.response.UserResponseDTO;
+import br.com.codenation.squad1.mapper.UserMapper;
 
-import br.com.codenation.squad1.user.model.User;
+import br.com.codenation.squad1.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.codenation.squad1.user.repository.UserRepository;
+import br.com.codenation.squad1.repository.UserRepository;
 
 import java.util.UUID;
 

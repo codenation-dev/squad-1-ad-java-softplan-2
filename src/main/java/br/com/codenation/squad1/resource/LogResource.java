@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.log.resource;
+package br.com.codenation.squad1.resource;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;

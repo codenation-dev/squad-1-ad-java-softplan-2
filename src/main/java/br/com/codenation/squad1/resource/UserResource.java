@@ -1,9 +1,9 @@
-package br.com.codenation.squad1.user.resource;
+package br.com.codenation.squad1.resource;
 
 import javax.validation.Valid;
 
-import br.com.codenation.squad1.user.dto.request.UserRequestDTO;
-import br.com.codenation.squad1.user.dto.response.UserResponseDTO;
+import br.com.codenation.squad1.dto.request.UserRequestDTO;
+import br.com.codenation.squad1.dto.response.UserResponseDTO;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.codenation.squad1.user.service.UserService;
+import br.com.codenation.squad1.service.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/users")
-@Api(tags = {"Users"}, description = "User management endpoint")
+@Api(tags = {"Users"})
 public class UserResource {
 
     @Autowired

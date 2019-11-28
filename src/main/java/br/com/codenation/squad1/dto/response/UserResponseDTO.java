@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.user.dto.response;
+package br.com.codenation.squad1.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;

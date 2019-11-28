@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.user.model;
+package br.com.codenation.squad1.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;

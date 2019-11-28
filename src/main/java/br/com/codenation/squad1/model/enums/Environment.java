@@ -1,4 +1,4 @@
-package br.com.codenation.squad1.log.model.enums;
+package br.com.codenation.squad1.model.enums;
 
 public enum Environment {
 
