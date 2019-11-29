@@ -5,15 +5,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.util.DigestUtils;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "user_account")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class User extends Auditable {
 
@@ -34,8 +33,12 @@ public class User extends Auditable {
     @Size(min = 3, max = 50)
     private String password;
 
+    // TODO:
+    //      - Setar token no construtor
+
+    @Setter(AccessLevel.NONE)
     @NotBlank
-    private String token;
+    private String token = UUID.randomUUID().toString();
 
     public void setPassword(final String password) {
         this.password = DigestUtils.md5DigestAsHex(password.getBytes());

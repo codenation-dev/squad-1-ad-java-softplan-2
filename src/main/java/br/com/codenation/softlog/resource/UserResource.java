@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import br.com.codenation.softlog.dto.request.UserRequestDTO;
 import br.com.codenation.softlog.dto.response.UserResponseDTO;
 import io.swagger.annotations.Api;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,15 +19,22 @@ import br.com.codenation.softlog.service.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(path = "/api")
 @Api(tags = {"Users"})
+@AllArgsConstructor
 public class UserResource {
 
-    @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "Create new user account", notes = "Use your token to register new logs")
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(
+            value = "Create new user account",
+            notes = "Method used to register new user."
+    )
+    @PostMapping(
+            path = "/users",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody final UserRequestDTO user) {
         UserResponseDTO createdUser = userService.create(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);

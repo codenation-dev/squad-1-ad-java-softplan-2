@@ -8,7 +8,10 @@ import lombok.Data;
 @JsonPropertyOrder({"id", "name", "email"})
 public class UserResponseDTO {
 
-    @ApiModelProperty(value = "User identification", position = 1, example = "cbd9881e-88e9-4973-bfc0-5b4fcde29574")
+    // TODO:
+    //      - Retornar id ou token?
+
+    @ApiModelProperty(value = "User identification", position = 1, example = "1L")
     private Long id;
 
     @ApiModelProperty(value = "User name", position = 2, example = "Jesus Christ")
