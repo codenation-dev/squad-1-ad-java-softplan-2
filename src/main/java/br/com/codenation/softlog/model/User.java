@@ -14,6 +14,7 @@ import java.util.UUID;
 @Table(name = "user_account")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User extends Auditable {
 
     @Id
@@ -33,12 +34,8 @@ public class User extends Auditable {
     @Size(min = 3, max = 50)
     private String password;
 
-    // TODO:
-    //      - Setar token no construtor
-
-    @Setter(AccessLevel.NONE)
     @NotBlank
-    private String token = UUID.randomUUID().toString();
+    private String token;
 
     public void setPassword(final String password) {
         this.password = DigestUtils.md5DigestAsHex(password.getBytes());

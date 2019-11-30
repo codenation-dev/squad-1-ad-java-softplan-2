@@ -35,8 +35,8 @@ public class UserResource {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody final UserRequestDTO user) {
-        UserResponseDTO createdUser = userService.create(user);
+    public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody final UserRequestDTO userDTO) {
+        UserResponseDTO createdUser = userService.create(userDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }

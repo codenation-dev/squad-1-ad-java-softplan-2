@@ -25,6 +25,7 @@ public class UserService {
 //        TODO:
 //          - Nomes diferentes para cada map? (toUser() e toUserResponseDTO())
 
+        user.setToken(UUID.randomUUID().toString());
         User createdUser = userRepository.save(user);
         return mapper.map(createdUser);
     }
