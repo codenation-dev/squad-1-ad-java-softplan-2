@@ -1,34 +1,49 @@
 package br.com.codenation.softlog.model;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
+
 import br.com.codenation.softlog.model.enums.Environment;
 import br.com.codenation.softlog.model.enums.Level;
 import br.com.codenation.softlog.model.enums.Status;
+import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import java.time.LocalDateTime;
-
+@Data
+@Entity
+@Immutable
+@Subselect("select title, description, level, user_account_id, source, status, environment, count(*) as events, max(id) as id "
+		// from
+		+ "from log "
+		// group
+		+ "group by title, description, level, user_account_id, source, status, environment")
 public class LogAggregate {
 
-    @Enumerated(EnumType.STRING)
-    private Level level;
+	private String title;
+	private String description;
 
-    private String source;
+	@Enumerated(EnumType.STRING)
+	private Level level;
 
-    private String title;
+	private Long userAccountId;
 
-    private String description;
+	private String source;
 
-    @Enumerated(EnumType.STRING)
-    private Environment environment;
+	@Enumerated(EnumType.STRING)
+	private Status status;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+	@Enumerated(EnumType.STRING)
+	private Environment environment;
 
-    private User user;
+	private Long events;
 
-    private LocalDateTime createdAt;
+	@Id
+	private Long id;
 
-    private Long events;
+//	private LocalDateTime createdAt;
 
 }
