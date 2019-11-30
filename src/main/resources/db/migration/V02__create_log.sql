@@ -6,8 +6,7 @@ CREATE TABLE log (
     environment VARCHAR(12) NOT NULL,
     level VARCHAR(10) NOT NULL,
     status VARCHAR(8) NOT NULL,
-    user_account_id INT8,
+    api_key VARCHAR(50) UNIQUE NOT NULL,
 	created_at TIMESTAMP,
     modified_at TIMESTAMP
 );
-ALTER TABLE log ADD CONSTRAINT fk_log_user FOREIGN KEY (user_account_id) REFERENCES user_account;
