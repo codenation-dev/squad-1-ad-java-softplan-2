@@ -47,8 +47,8 @@ public class Log extends Auditable {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	@ManyToOne
-	@JoinColumn(name = "user_account_id")
-	private User user;
+	@NotBlank
+	@Column(name = "api_Key",updatable = false)
+	private String apiKey;
 
 }
