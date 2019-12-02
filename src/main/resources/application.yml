@@ -1,0 +1,16 @@
+server.port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/softlog_db
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate.ddl-auto: validate
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+
+security.oauth2.client:
+  client-id: squad1
+  client-secret: 123
+  scope: password
