@@ -16,11 +16,11 @@ import lombok.Data;
 @Data
 @Entity
 @Immutable
-@Subselect("select title, description, level, user_account_id, source, status, environment, count(*) as events, max(id) as id "
+@Subselect("select title, description, level, api_key, source, status, environment, count(*) as events, max(id) as id "
 		// from
 		+ "from log "
 		// group
-		+ "group by title, description, level, user_account_id, source, status, environment")
+		+ "group by title, description, level, api_key, source, status, environment")
 public class LogAggregate {
 
 	private String title;
@@ -29,7 +29,7 @@ public class LogAggregate {
 	@Enumerated(EnumType.STRING)
 	private Level level;
 
-	private Long userAccountId;
+	private String apiKey;
 
 	private String source;
 
