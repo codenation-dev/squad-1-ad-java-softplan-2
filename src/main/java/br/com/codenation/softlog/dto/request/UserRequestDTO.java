@@ -7,14 +7,18 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
 @JsonPropertyOrder({ "name", "email", "password" })
 @EqualsAndHashCode(exclude = "password")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRequestDTO {
 
 	@NotBlank
