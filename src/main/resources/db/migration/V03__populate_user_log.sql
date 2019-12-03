@@ -1,9 +1,11 @@
 ALTER TABLE log DROP CONSTRAINT log_api_key_key;
 
+-- password = codenation
 INSERT INTO user_account
 (name, email, "password", api_key, created_at, modified_at)
 VALUES('João', 'joao@codenation.com', 'be45936562a69075903b189cd8c46fcc', '3e7eb343-dd9e-42d0-bce5-064fd84d7938', '2019-12-03 11:10:34.542', '2019-12-03 11:10:34.542');
 
+-- password = codenation
 INSERT INTO user_account
 (name, email, "password", api_key, created_at, modified_at)
 VALUES('Maria', 'maria@codenation.com', 'be45936562a69075903b189cd8c46fcc', 'e9e75456-b636-432c-ab92-27c58be98518', '2019-12-03 11:10:34.542', '2019-12-03 11:10:34.542');
