@@ -20,9 +20,9 @@ public interface UserMapper {
     User map(UserRequestDTO dto);
 
     @Mappings({
-            @Mapping(target = "id", source = "id"),
-            @Mapping(target = "email", source = "email"),
             @Mapping(target = "name", source = "name"),
+            @Mapping(target = "email", source = "email"),
+            @Mapping(target = "apiKey", source = "apiKey")
     })
     UserResponseDTO map(User user);
 

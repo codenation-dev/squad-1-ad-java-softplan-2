@@ -25,8 +25,13 @@ public class UserResource {
 
 	private UserService userService;
 
-	@ApiOperation(value = "Create new user account", notes = "Method used to register new user.")
-	@PostMapping(path = "/users", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(
+			value = "Create new user account",
+			notes = "Method used to register new user.")
+	@PostMapping(
+			path = "/users",
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<UserResponseDTO> create(@Valid @RequestBody final UserRequestDTO userDTO) {
 		UserResponseDTO createdUser = userService.create(userDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);

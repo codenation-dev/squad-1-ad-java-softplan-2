@@ -23,7 +23,11 @@ import lombok.Data;
 		+ "group by title, description, level, api_key, source, status, environment")
 public class LogAggregate {
 
+	@Id
+	private Long id;
+
 	private String title;
+
 	private String description;
 
 	@Enumerated(EnumType.STRING)
@@ -40,9 +44,6 @@ public class LogAggregate {
 	private Environment environment;
 
 	private Long events;
-
-	@Id
-	private Long id;
 
 //	private LocalDateTime createdAt;
 

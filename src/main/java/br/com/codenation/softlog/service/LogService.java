@@ -2,7 +2,11 @@ package br.com.codenation.softlog.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.codenation.softlog.dto.request.LogRequestDTO;
+import br.com.codenation.softlog.dto.response.LogResponseDTO;
+import br.com.codenation.softlog.mapper.LogMapper;
+import br.com.codenation.softlog.model.Log;
+import br.com.codenation.softlog.repository.LogRepository;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.softlog.model.LogAggregate;
@@ -13,11 +17,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LogService {
 
-	@Autowired
+	private LogRepository logRepository;
 	private LogAggregateRepository logAggregateRepository;
+	private LogMapper mapper;
 
-	public void save() {
-
+	public LogResponseDTO save(LogRequestDTO logDTO) {
+		Log log = mapper.map(logDTO);
+	 	return mapper.map(logRepository.save(log));
 	}
 
 	public void remove() {
@@ -26,6 +32,5 @@ public class LogService {
 
 	public List<LogAggregate> listAggregate() {
 		return logAggregateRepository.findAll();
-
 	}
 }

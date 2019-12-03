@@ -1,5 +1,6 @@
 package br.com.codenation.softlog.security;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,12 +18,10 @@ import br.com.codenation.softlog.security.jwt.SecurityJWT;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
 	private CustomAuthenticationProvider authProvider;
-
-	@Autowired
 	private SecurityJWT security;
 
 	private static final String[] PUBLIC_MATCHERS = {
