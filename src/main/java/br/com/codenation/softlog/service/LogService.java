@@ -25,7 +25,7 @@ public class LogService {
 	}
 
 	public List<LogAggregate> listAggregate() {
-		return logAggregateRepository.findByTitle("Log info");
+		return logAggregateRepository.findAll();
 
 	}
 }
