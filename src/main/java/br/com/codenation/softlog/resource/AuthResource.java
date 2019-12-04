@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.codenation.softlog.dto.request.LoginDTO;
+import br.com.codenation.softlog.dto.request.LoginRequestDTO;
 import br.com.codenation.softlog.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,8 +40,8 @@ public class AuthResource {
 	@PostMapping(
 			path = "/login",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> login(@RequestBody LoginDTO loginDTO, HttpServletResponse response) {
-		String token = authService.login(loginDTO);
+	public ResponseEntity<Void> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpServletResponse response) {
+		String token = authService.login(loginRequestDTO);
 		response.addHeader("Authorization", "Bearer " + token);
 		return ResponseEntity.noContent().build();
 	}

@@ -5,6 +5,8 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
@@ -12,11 +14,16 @@ import br.com.codenation.softlog.model.enums.Environment;
 import br.com.codenation.softlog.model.enums.Level;
 import br.com.codenation.softlog.model.enums.Status;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
-@Data
+import java.time.LocalDateTime;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Immutable
-@Subselect("select title, description, level, api_key, source, status, environment, count(*) as events, max(id) as id "
+@Subselect("select title, description, level, api_key, source, status, environment, count(*) as events, max(id) as id, max(created_at) as created "
 		// from
 		+ "from log "
 		// group
@@ -45,6 +52,7 @@ public class LogAggregate {
 
 	private Long events;
 
-//	private LocalDateTime createdAt;
+	@CreatedDate
+	private LocalDateTime created;
 
 }

@@ -3,6 +3,7 @@ package br.com.codenation.softlog.resource;
 import java.util.List;
 
 import br.com.codenation.softlog.dto.request.LogRequestDTO;
+import br.com.codenation.softlog.dto.response.LogAggregateResponseDTO;
 import br.com.codenation.softlog.dto.response.LogResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,11 +32,8 @@ public class LogResource {
 	@GetMapping(
 			path = "/logs",
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<LogAggregate> list() {
-
-		// TODO: retornar DTO de LogAggregate
-
-		return logService.listAggregate();
+	public ResponseEntity<List<LogAggregateResponseDTO>> list() {
+		return ResponseEntity.ok(logService.listAggregate());
 	}
 
 	@ApiOperation(
