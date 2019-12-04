@@ -1,5 +1,6 @@
 package br.com.codenation.softlog.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class UserService {
 		User user = mapper.map(userDto);
 		user.setApiKey(UUID.randomUUID().toString());
 		return mapper.map(userRepository.save(user));
+	}
+
+	public Boolean isValidApiKey(String apiKey) {
+		return userRepository.existsByApiKey(apiKey);
 	}
 
 }

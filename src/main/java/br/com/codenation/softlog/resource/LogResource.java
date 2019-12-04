@@ -46,9 +46,6 @@ public class LogResource {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LogResponseDTO> save(@Valid @RequestBody final LogRequestDTO logDTO) {
-
-		// TODO: verificar se o token é valido -> throw excoption
-
 		return ResponseEntity.status(HttpStatus.CREATED).body(
 				logService.save(logDTO));
 	}

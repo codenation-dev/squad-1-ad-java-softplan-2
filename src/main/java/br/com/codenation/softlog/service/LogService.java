@@ -20,10 +20,19 @@ public class LogService {
 	private LogRepository logRepository;
 	private LogAggregateRepository logAggregateRepository;
 	private LogMapper mapper;
+	private UserService userService;
 
 	public LogResponseDTO save(LogRequestDTO logDTO) {
+		if (apiKeyNotValid(logDTO.getApiKey())) {
+			// TODO: - Customizar Exceptions
+			throw new RuntimeException("ApiKey not valid!");
+		}
 		Log log = mapper.map(logDTO);
-	 	return mapper.map(logRepository.save(log));
+		return mapper.map(logRepository.save(log));
+	}
+
+	private Boolean apiKeyNotValid(String apiKey) {
+		return !userService.isValidApiKey(apiKey);
 	}
 
 	public void remove() {
