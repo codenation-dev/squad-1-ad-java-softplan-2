@@ -51,4 +51,11 @@ public class LogService {
     public List<LogAggregateResponseDTO> listAggregateByEnviroment(@Valid final Environment environment) {
         return aggregateMapper.map(logAggregateRepository.findByEnvironment(environment));
     }
+
+    public List<LogAggregateResponseDTO> listAllOrderByEnviroment(@Valid final Environment enviroment) {
+        final List<LogAggregateResponseDTO> list = aggregateMapper.map(logAggregateRepository.findAll());
+        list.sort((log1, log2) -> log1.getEnvironment().compareTo(log2.getEnvironment()));
+        return list;
+
+    }
 }

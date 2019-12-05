@@ -51,9 +51,15 @@ public class LogResource {
 
     }
 
-    @ApiOperation(value = "List all log aggregates by environment", notes = "Method used to list log aggregates.")
+    @ApiOperation(value = "List all log aggregates by environment", notes = "Method used to list log aggregates by environment.")
     @GetMapping(path = "/logs/enviroment", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<LogAggregateResponseDTO>> listByEnvironment(@Valid @RequestBody final Environment enviroment) {
         return ResponseEntity.ok(logService.listAggregateByEnviroment(enviroment));
+    }
+
+    @ApiOperation(value = "Order log aggregates by environment", notes = "Method used to order log aggregates environment.")
+    @GetMapping(path = "/logs/enviroment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<LogAggregateResponseDTO>> listAllOrderByEnvironment(@Valid @RequestBody final Environment enviroment) {
+        return ResponseEntity.ok(logService.listAllOrderByEnviroment(enviroment));
     }
 }
