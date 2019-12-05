@@ -4,26 +4,14 @@ import br.com.codenation.softlog.dto.request.UserRequestDTO;
 import br.com.codenation.softlog.dto.response.UserResponseDTO;
 import br.com.codenation.softlog.model.User;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
 
-import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
-    @Mappings({
-            @Mapping(target = "email", source = "email"),
-            @Mapping(target = "name", source = "name"),
-            @Mapping(target = "password", source = "password"),
-    })
     User map(UserRequestDTO dto);
 
-    @Mappings({
-            @Mapping(target = "id", source = "id"),
-            @Mapping(target = "email", source = "email"),
-            @Mapping(target = "name", source = "name"),
-    })
     UserResponseDTO map(User user);
 
 }

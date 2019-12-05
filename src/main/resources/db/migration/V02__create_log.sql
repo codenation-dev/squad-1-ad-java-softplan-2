@@ -6,7 +6,7 @@ CREATE TABLE log (
     environment VARCHAR(12) NOT NULL,
     level VARCHAR(10) NOT NULL,
     status VARCHAR(8) NOT NULL,
-    api_key VARCHAR(50) UNIQUE NOT NULL,
+    api_key VARCHAR(50) NOT NULL,
 	created_at TIMESTAMP,
     modified_at TIMESTAMP
 );

@@ -48,7 +48,7 @@ public class Log extends Auditable {
 	private Status status;
 
 	@NotBlank
-	@Column(name = "api_Key",updatable = false)
+	@Column(name = "api_key", updatable = false)
 	private String apiKey;
 
 }

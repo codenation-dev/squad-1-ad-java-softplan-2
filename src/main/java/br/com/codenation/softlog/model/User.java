@@ -34,9 +34,9 @@ public class User extends Auditable {
     @Size(min = 3, max = 50)
     private String password;
 
-    @Column(name = "api_Key",updatable = false)
+    @Column(name = "api_key", updatable = false)
     @NotBlank
-    private String token;
+    private String apiKey;
 
     public void setPassword(final String password) {
         this.password = DigestUtils.md5DigestAsHex(password.getBytes());

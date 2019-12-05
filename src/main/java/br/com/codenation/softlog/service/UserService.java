@@ -1,5 +1,6 @@
 package br.com.codenation.softlog.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -20,13 +21,12 @@ public class UserService {
 
 	public UserResponseDTO create(final UserRequestDTO userDto) {
 		User user = mapper.map(userDto);
+		user.setApiKey(UUID.randomUUID().toString());
+		return mapper.map(userRepository.save(user));
+	}
 
-//        TODO:
-//          - Nomes diferentes para cada map? (toUser() e toUserResponseDTO())
-
-		user.setToken(UUID.randomUUID().toString());
-		User createdUser = userRepository.save(user);
-		return mapper.map(createdUser);
+	public Boolean isValidApiKey(String apiKey) {
+		return userRepository.existsByApiKey(apiKey);
 	}
 
 }

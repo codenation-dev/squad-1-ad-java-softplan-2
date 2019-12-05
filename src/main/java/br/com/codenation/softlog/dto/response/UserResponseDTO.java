@@ -5,19 +5,25 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@JsonPropertyOrder({"id", "name", "email"})
+@JsonPropertyOrder({"name", "email", "apiKey"})
 public class UserResponseDTO {
 
-    // TODO:
-    //      - Retornar id ou token?
-
-    @ApiModelProperty(value = "User identification", position = 1, example = "1L")
-    private Long id;
-
-    @ApiModelProperty(value = "User name", position = 2, example = "Jesus Christ")
+    @ApiModelProperty(
+            value = "User name",
+            position = 1,
+            example = "Jesus Christ")
     private String name;
 
-    @ApiModelProperty(value = "User e-mail", position = 3, example = "admin@codenation.com")
+    @ApiModelProperty(
+            value = "User e-mail",
+            position = 2,
+            example = "admin@codenation.com")
     private String email;
+
+    @ApiModelProperty(
+            value = "User API key",
+            position = 3,
+            example = "f0fb85c6-6165-4972-bd33-0369ebffc6ac")
+    private String apiKey;
 
 }
