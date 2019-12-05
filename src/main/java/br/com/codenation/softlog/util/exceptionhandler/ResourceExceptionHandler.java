@@ -8,11 +8,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<StandardError> validation(Exception e, HttpServletRequest request) {
+
+		log.error("Execption.", e);
 
 		StandardError err = new StandardError(HttpStatus.PRECONDITION_FAILED.value(), e.getMessage(),
 				request.getRequestURI());
@@ -22,6 +27,8 @@ public class ResourceExceptionHandler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
+
+		log.error("MethodArgumentNotValidException.", e);
 
 		ValidationError err = new ValidationError(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage(),
 				request.getRequestURI());

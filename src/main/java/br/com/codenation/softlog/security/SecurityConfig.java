@@ -1,7 +1,5 @@
 package br.com.codenation.softlog.security;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 import br.com.codenation.softlog.security.jwt.JWTAuthorizationFilter;
 import br.com.codenation.softlog.security.jwt.SecurityJWT;
+import lombok.AllArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**",
 			// app login
 			"/api/auth/**",
+			// FIXME remover entrada
+			"/api/logs/**",
 			// create user
 			"/api/users/**" };
 
