@@ -28,8 +28,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html**", "/webjars/**",
 			// app login
 			"/api/auth/**",
-			// FIXME remover entrada
-			"/api/logs/**",
 			// create user
 			"/api/users/**" };
 
