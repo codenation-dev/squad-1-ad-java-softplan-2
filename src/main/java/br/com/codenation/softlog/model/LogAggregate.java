@@ -1,22 +1,21 @@
 package br.com.codenation.softlog.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
 import br.com.codenation.softlog.model.enums.EnvironmentEnum;
 import br.com.codenation.softlog.model.enums.Level;
 import br.com.codenation.softlog.model.enums.StatusEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
@@ -52,7 +51,6 @@ public class LogAggregate {
 
 	private Long events;
 
-	@CreatedDate
 	private LocalDateTime created;
 
 }
