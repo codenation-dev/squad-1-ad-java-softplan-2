@@ -1,6 +1,6 @@
 package br.com.codenation.softlog.dto.response;
 
-import br.com.codenation.softlog.model.enums.Environment;
+import br.com.codenation.softlog.model.enums.EnvironmentEnum;
 import br.com.codenation.softlog.model.enums.Level;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
@@ -53,7 +53,7 @@ public class LogAggregateResponseDTO {
             position = 6,
             example = "DEVELOPMENT",
             allowableValues = "DEVELOPMENT, HOMOLOGATION , PRODUCTION")
-    private Environment environment;
+    private EnvironmentEnum environment;
 
     @ApiModelProperty(
             value = "Number of log events",

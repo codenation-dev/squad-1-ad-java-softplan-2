@@ -1,6 +1,6 @@
 package br.com.codenation.softlog.model.enums;
 
-public enum Environment {
+public enum EnvironmentEnum {
 
     DEVELOPMENT, HOMOLOGATION , PRODUCTION;
 

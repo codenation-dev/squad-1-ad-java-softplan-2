@@ -5,13 +5,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import br.com.codenation.softlog.model.enums.Environment;
+import br.com.codenation.softlog.model.enums.EnvironmentEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import br.com.codenation.softlog.model.enums.Level;
-import br.com.codenation.softlog.model.enums.Status;
+import br.com.codenation.softlog.model.enums.StatusEnum;
 
 @Entity
 @Data
@@ -37,7 +37,7 @@ public class Log extends Auditable {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Environment environment;
+	private EnvironmentEnum environment;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -45,7 +45,7 @@ public class Log extends Auditable {
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private StatusEnum status;
 
 	@NotBlank
 	@Column(name = "api_key", updatable = false)

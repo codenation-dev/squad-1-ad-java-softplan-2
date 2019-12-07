@@ -1,6 +1,6 @@
 package br.com.codenation.softlog.model.enums;
 
-public enum Status {
+public enum StatusEnum {
 
 	ACTIVE, ARCHIVED
 

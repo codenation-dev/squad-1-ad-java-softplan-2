@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.Subselect;
 
-import br.com.codenation.softlog.model.enums.Environment;
+import br.com.codenation.softlog.model.enums.EnvironmentEnum;
 import br.com.codenation.softlog.model.enums.Level;
-import br.com.codenation.softlog.model.enums.Status;
+import br.com.codenation.softlog.model.enums.StatusEnum;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -45,10 +45,10 @@ public class LogAggregate {
 	private String source;
 
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private StatusEnum status;
 
 	@Enumerated(EnumType.STRING)
-	private Environment environment;
+	private EnvironmentEnum environment;
 
 	private Long events;
 

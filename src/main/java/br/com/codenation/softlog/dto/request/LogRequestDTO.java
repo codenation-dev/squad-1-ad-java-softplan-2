@@ -1,8 +1,8 @@
 package br.com.codenation.softlog.dto.request;
 
-import br.com.codenation.softlog.model.enums.Environment;
+import br.com.codenation.softlog.model.enums.EnvironmentEnum;
 import br.com.codenation.softlog.model.enums.Level;
-import br.com.codenation.softlog.model.enums.Status;
+import br.com.codenation.softlog.model.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.annotations.ApiModelProperty;
@@ -61,7 +61,7 @@ public class LogRequestDTO {
             example = "DEVELOPMENT",
             allowableValues = "DEVELOPMENT, HOMOLOGATION , PRODUCTION",
             required = true)
-    private Environment environment;
+    private EnvironmentEnum environment;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -74,6 +74,6 @@ public class LogRequestDTO {
     private Level level;
 
     @JsonIgnore
-    private Status status = Status.ACTIVE;
+    private StatusEnum status = StatusEnum.ACTIVE;
 
 }

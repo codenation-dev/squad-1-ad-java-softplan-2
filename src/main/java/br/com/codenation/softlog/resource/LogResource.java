@@ -1,7 +1,5 @@
 package br.com.codenation.softlog.resource;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -18,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.codenation.softlog.dto.request.LogRequestDTO;
 import br.com.codenation.softlog.dto.response.LogAggregateResponseDTO;
 import br.com.codenation.softlog.dto.response.LogResponseDTO;
+import br.com.codenation.softlog.dto.response.PageDTO;
 import br.com.codenation.softlog.enums.OrderByEnum;
 import br.com.codenation.softlog.enums.SearchForEnum;
-import br.com.codenation.softlog.model.enums.Environment;
+import br.com.codenation.softlog.model.enums.EnvironmentEnum;
+import br.com.codenation.softlog.model.enums.StatusEnum;
 import br.com.codenation.softlog.service.LogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,13 +36,16 @@ public class LogResource {
 
 	@ApiOperation(value = "List all log aggregates", notes = "Method used to list log aggregates.")
 	@GetMapping(path = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<LogAggregateResponseDTO>> search(@RequestParam(required = false) Environment environment,
+	public ResponseEntity<PageDTO<LogAggregateResponseDTO>> search(
+			@RequestParam(required = false) EnvironmentEnum environment,
 			@RequestParam(required = false) OrderByEnum orderBy,
 			@RequestParam(required = false) SearchForEnum searchFor,
-			@RequestParam(required = false) String searchForValue, @RequestParam(defaultValue = "0") Integer startPage,
-			@RequestParam(defaultValue = "2") Integer pageSize) {
-		return ResponseEntity
-				.ok(logService.searchLogs(environment, orderBy, searchFor, searchForValue, startPage, pageSize));
+			@RequestParam(required = false) String searchForValue,
+			@RequestParam(defaultValue = "ACTIVE") StatusEnum status,
+			// pagination
+			@RequestParam(defaultValue = "0") Integer startPage, @RequestParam(defaultValue = "2") Integer pageSize) {
+		return ResponseEntity.ok(
+				logService.searchLogs(environment, orderBy, searchFor, searchForValue, status, startPage, pageSize));
 	}
 
 	@ApiOperation(value = "Create a log entry", notes = "Method used to create a log entry. Use your API key to save logs.")
