@@ -23,34 +23,34 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Immutable
 @Subselect("select title, description, level, api_key, source, status, environment, count(*) as events, max(id) as id, max(created_at) as created "
-		// from
-		+ "from log "
-		// group
-		+ "group by title, description, level, api_key, source, status, environment")
+        // from
+        + "from log "
+        // group
+        + "group by title, description, level, api_key, source, status, environment")
 public class LogAggregate {
 
-	@Id
-	private Long id;
+    @Id
+    private Long id;
 
-	private String title;
+    private String title;
 
-	private String description;
+    private String description;
 
-	@Enumerated(EnumType.STRING)
-	private Level level;
+    @Enumerated(EnumType.STRING)
+    private Level level;
 
-	private String apiKey;
+    private String apiKey;
 
-	private String source;
+    private String source;
 
-	@Enumerated(EnumType.STRING)
-	private StatusEnum status;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
-	@Enumerated(EnumType.STRING)
-	private EnvironmentEnum environment;
+    @Enumerated(EnumType.STRING)
+    private EnvironmentEnum environment;
 
-	private Long events;
+    private Long events;
 
-	private LocalDateTime created;
+    private LocalDateTime created;
 
 }

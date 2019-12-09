@@ -34,164 +34,241 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LogService {
 
-	private LogRepository logRepository;
-	private LogMapper logMapper;
-	private LogAggregateMapper aggregateMapper;
-	private UserService userService;
-	private EntityManager entityManager;
+    private final LogRepository logRepository;
+    private final LogMapper logMapper;
+    private final LogAggregateMapper aggregateMapper;
+    private final UserService userService;
+    private final EntityManager entityManager;
 
-	public LogResponseDTO save(LogRequestDTO logDTO) {
-		if (apiKeyNotValid(logDTO.getApiKey())) {
-			// TODO: - Customizar Exceptions
-			throw new RuntimeException("ApiKey not valid!");
-		}
-		Log log = logMapper.map(logDTO);
-		return logMapper.map(logRepository.save(log));
-	}
+    public LogResponseDTO save(final LogRequestDTO logDTO) {
+        if (apiKeyNotValid(logDTO.getApiKey())) {
+            // TODO: - Customizar Exceptions
+            throw new RuntimeException("ApiKey not valid!");
+        }
+        final Log log = logMapper.map(logDTO);
+        return logMapper.map(logRepository.save(log));
+    }
 
-	private Boolean apiKeyNotValid(String apiKey) {
-		return !userService.isValidApiKey(apiKey);
-	}
+    private Boolean apiKeyNotValid(final String apiKey) {
+        return !userService.isValidApiKey(apiKey);
+    }
 
-	public void remove() {
+    public void remove(final EnvironmentEnum environment, final SearchForEnum searchFor, final String searchForValue, final StatusEnum status) {
+        final CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Log> cQuery = cBuilder.createQuery(Log.class);
+        final Root<Log> root = cQuery.from(Log.class);
 
-	}
+        final Predicate where = addFiltersToRemoveOrArchive(root, cBuilder, environment, searchFor, searchForValue, status);
 
-	public PageDTO<LogAggregateResponseDTO> searchLogs(EnvironmentEnum environment, OrderByEnum orderBy,
-			SearchForEnum searchFor, String searchForValue, StatusEnum status, Integer startPage, Integer pageSize) {
+        cQuery.select(root).where(where);
 
-		List<LogAggregateResponseDTO> logsDTO = searchLogsData(environment, orderBy, searchFor, searchForValue, status,
-				startPage, pageSize);
+        final TypedQuery<Log> query = entityManager.createQuery(cQuery);
 
-		Long logsCount = searchLogsCount(environment, searchFor, searchForValue, status);
+        // execute query, get Logs
+        query.getResultList();
+    }
 
-		// return datas
-		return new PageDTO<LogAggregateResponseDTO>(logsDTO, logsCount);
-	}
+    private Predicate addFiltersToRemoveOrArchive(final Root<Log> root, final CriteriaBuilder cBuilder, final EnvironmentEnum environment, final SearchForEnum searchFor, final String searchForValue,
+            final StatusEnum status) {
+        final List<Predicate> predicates = new ArrayList<>();
 
-	private Long searchLogsCount(EnvironmentEnum environment, SearchForEnum searchFor, String searchForValue,
-			StatusEnum status) {
+        addStatusFilterForRemoveOrArchive(root, predicates, cBuilder, status);
+        addEnvironmentFilterForRemoveOrArchive(root, predicates, cBuilder, environment);
+        if (searchFor != null && searchForValue != null) {
+            addDescriptionFilterForRemoveOrArchive(root, predicates, cBuilder, searchFor, searchForValue);
+            addLevelFilterForRemoveOrArchive(root, predicates, cBuilder, searchFor, searchForValue);
+            addSourceFilterForRemoveOrArchive(root, predicates, cBuilder, searchFor, searchForValue);
+        }
 
-		CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<Long> cQuery = cBuilder.createQuery(Long.class);
-		Root<LogAggregate> root = cQuery.from(LogAggregate.class);
+        final Predicate where = cBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        return where;
+    }
 
-		Predicate where = addFilters(root, cBuilder, environment, searchFor, searchForValue, status);
+    public PageDTO<LogAggregateResponseDTO> searchLogs(final EnvironmentEnum environment, final OrderByEnum orderBy,
+            final SearchForEnum searchFor, final String searchForValue, final StatusEnum status, final Integer startPage, final Integer pageSize) {
 
-		cQuery.select(cBuilder.count(root)).where(where);
+        final List<LogAggregateResponseDTO> logsDTO = searchLogsData(environment, orderBy, searchFor, searchForValue, status,
+                startPage, pageSize);
 
-		TypedQuery<Long> query = entityManager.createQuery(cQuery);
+        final Long logsCount = searchLogsCount(environment, searchFor, searchForValue, status);
 
-		// execute query, get Logs
-		Long count = query.getSingleResult();
+        // return datas
+        return new PageDTO<LogAggregateResponseDTO>(logsDTO, logsCount);
+    }
 
-		return count;
-	}
+    private Long searchLogsCount(final EnvironmentEnum environment, final SearchForEnum searchFor, final String searchForValue,
+            final StatusEnum status) {
 
-	private List<LogAggregateResponseDTO> searchLogsData(EnvironmentEnum environment, OrderByEnum orderBy,
-			SearchForEnum searchFor, String searchForValue, StatusEnum status, Integer startPage, Integer pageSize) {
+        final CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<Long> cQuery = cBuilder.createQuery(Long.class);
+        final Root<LogAggregate> root = cQuery.from(LogAggregate.class);
 
-		CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
-		CriteriaQuery<LogAggregate> cQuery = cBuilder.createQuery(LogAggregate.class);
-		Root<LogAggregate> root = cQuery.from(LogAggregate.class);
+        final Predicate where = addFilters(root, cBuilder, environment, searchFor, searchForValue, status);
 
-		Predicate where = addFilters(root, cBuilder, environment, searchFor, searchForValue, status);
+        cQuery.select(cBuilder.count(root)).where(where);
 
-		cQuery.select(root).where(where);
+        final TypedQuery<Long> query = entityManager.createQuery(cQuery);
 
-		addOrder(cQuery, cBuilder, root, orderBy);
+        // execute query, get Logs
+        final Long count = query.getSingleResult();
 
-		// pagination
-		TypedQuery<LogAggregate> query = entityManager.createQuery(cQuery);
-		query.setFirstResult(startPage);
-		query.setMaxResults(pageSize);
+        return count;
+    }
 
-		// execute query, get Logs
-		List<LogAggregate> logs = query.getResultList();
-		// tranform to DTO
-		List<LogAggregateResponseDTO> logsDTO = aggregateMapper.map(logs);
+    private List<LogAggregateResponseDTO> searchLogsData(final EnvironmentEnum environment, final OrderByEnum orderBy,
+            final SearchForEnum searchFor, final String searchForValue, final StatusEnum status, final Integer startPage, final Integer pageSize) {
 
-		return logsDTO;
-	}
+        final CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
+        final CriteriaQuery<LogAggregate> cQuery = cBuilder.createQuery(LogAggregate.class);
+        final Root<LogAggregate> root = cQuery.from(LogAggregate.class);
 
-	private Predicate addFilters(Root<LogAggregate> root, CriteriaBuilder cBuilder, EnvironmentEnum environment,
-			SearchForEnum searchFor, String searchForValue, StatusEnum status) {
+        final Predicate where = addFilters(root, cBuilder, environment, searchFor, searchForValue, status);
 
-		List<Predicate> predicates = new ArrayList<>();
+        cQuery.select(root).where(where);
 
-		addStatusFilter(root, predicates, cBuilder, status);
-		addEnvironmentFilter(root, predicates, cBuilder, environment);
-		if (searchFor != null && searchForValue != null) {
-			addDescriptionFilter(root, predicates, cBuilder, searchFor, searchForValue);
-			addLevelFilter(root, predicates, cBuilder, searchFor, searchForValue);
-			addSourceFilter(root, predicates, cBuilder, searchFor, searchForValue);
-		}
+        addOrder(cQuery, cBuilder, root, orderBy);
 
-		Predicate where = cBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-		return where;
-	}
+        // pagination
+        final TypedQuery<LogAggregate> query = entityManager.createQuery(cQuery);
+        query.setFirstResult(startPage);
+        query.setMaxResults(pageSize);
 
-	private void addOrder(CriteriaQuery<LogAggregate> cQuery, CriteriaBuilder cBuilder, Root<LogAggregate> root,
-			OrderByEnum orderBy) {
-		if (orderBy != null) {
-			cQuery.orderBy(cBuilder.desc(root.get(orderBy.getField())));
-		}
-	}
+        // execute query, get Logs
+        final List<LogAggregate> logs = query.getResultList();
+        // tranform to DTO
+        final List<LogAggregateResponseDTO> logsDTO = aggregateMapper.map(logs);
 
-	private void addEnvironmentFilter(Root<LogAggregate> root, List<Predicate> predicates, CriteriaBuilder cBuilder,
-			EnvironmentEnum environment) {
-		if (environment != null) {
-			Path<String> path = root.get("environment");
-			predicates.add(cBuilder.equal(path, environment));
-		}
-	}
+        return logsDTO;
+    }
 
-	private void addDescriptionFilter(Root<LogAggregate> root, List<Predicate> predicates, CriteriaBuilder cBuilder,
-			SearchForEnum searchFor, String searchForValue) {
-		if (searchFor.equals(SearchForEnum.DESCRIPTION)) {
-			Path<String> titlePath = root.get("title");
-			Predicate titleSearch = cBuilder.like(cBuilder.lower(titlePath), addPercentCharacter(searchForValue));
+    private Predicate addFilters(final Root<LogAggregate> root, final CriteriaBuilder cBuilder, final EnvironmentEnum environment,
+            final SearchForEnum searchFor, final String searchForValue, final StatusEnum status) {
 
-			Path<String> descriptionPath = root.get("description");
-			Predicate descriptionSearch = cBuilder.like(cBuilder.lower(descriptionPath),
-					addPercentCharacter(searchForValue));
+        final List<Predicate> predicates = new ArrayList<>();
 
-			predicates.add(cBuilder.or(titleSearch, descriptionSearch));
-		}
-	}
+        addStatusFilter(root, predicates, cBuilder, status);
+        addEnvironmentFilter(root, predicates, cBuilder, environment);
+        if (searchFor != null && searchForValue != null) {
+            addDescriptionFilter(root, predicates, cBuilder, searchFor, searchForValue);
+            addLevelFilter(root, predicates, cBuilder, searchFor, searchForValue);
+            addSourceFilter(root, predicates, cBuilder, searchFor, searchForValue);
+        }
 
-	private void addLevelFilter(Root<LogAggregate> root, List<Predicate> predicates, CriteriaBuilder cBuilder,
-			SearchForEnum searchFor, String searchForValue) {
-		if (searchFor.equals(SearchForEnum.LEVEL)) {
-			Optional<Level> levelOptional = Level.getEnumByValue(searchForValue);
-			if (levelOptional.isPresent()) {
-				Path<String> path = root.get("level");
-				Predicate search = cBuilder.equal(path, levelOptional.get());
+        final Predicate where = cBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        return where;
+    }
 
-				predicates.add(search);
-			}
-		}
-	}
+    private void addOrder(final CriteriaQuery<LogAggregate> cQuery, final CriteriaBuilder cBuilder, final Root<LogAggregate> root,
+            final OrderByEnum orderBy) {
+        if (orderBy != null) {
+            cQuery.orderBy(cBuilder.desc(root.get(orderBy.getField())));
+        }
+    }
 
-	private void addStatusFilter(Root<LogAggregate> root, List<Predicate> predicates, CriteriaBuilder cBuilder,
-			StatusEnum status) {
-		Path<String> path = root.get("status");
-		Predicate search = cBuilder.equal(path, status);
+    private void addEnvironmentFilter(final Root<LogAggregate> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder,
+            final EnvironmentEnum environment) {
+        if (environment != null) {
+            final Path<String> path = root.get("environment");
+            predicates.add(cBuilder.equal(path, environment));
+        }
+    }
 
-		predicates.add(search);
-	}
+    private void addDescriptionFilter(final Root<LogAggregate> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder,
+            final SearchForEnum searchFor, final String searchForValue) {
+        if (searchFor.equals(SearchForEnum.DESCRIPTION)) {
+            final Path<String> titlePath = root.get("title");
+            final Predicate titleSearch = cBuilder.like(cBuilder.lower(titlePath), addPercentCharacter(searchForValue));
 
-	private void addSourceFilter(Root<LogAggregate> root, List<Predicate> predicates, CriteriaBuilder cBuilder,
-			SearchForEnum searchFor, String searchForValue) {
-		if (searchFor.equals(SearchForEnum.SOURCE)) {
-			Path<String> path = root.get("source");
-			Predicate search = cBuilder.like(cBuilder.lower(path), addPercentCharacter(searchForValue));
+            final Path<String> descriptionPath = root.get("description");
+            final Predicate descriptionSearch = cBuilder.like(cBuilder.lower(descriptionPath),
+                    addPercentCharacter(searchForValue));
 
-			predicates.add(search);
-		}
-	}
+            predicates.add(cBuilder.or(titleSearch, descriptionSearch));
+        }
+    }
 
-	private String addPercentCharacter(String title) {
-		return String.format("%%%s%%", title.toLowerCase());
-	}
+    private void addLevelFilter(final Root<LogAggregate> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder,
+            final SearchForEnum searchFor, final String searchForValue) {
+        if (searchFor.equals(SearchForEnum.LEVEL)) {
+            final Optional<Level> levelOptional = Level.getEnumByValue(searchForValue);
+            if (levelOptional.isPresent()) {
+                final Path<String> path = root.get("level");
+                final Predicate search = cBuilder.equal(path, levelOptional.get());
+
+                predicates.add(search);
+            }
+        }
+    }
+
+    private void addStatusFilter(final Root<LogAggregate> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder,
+            final StatusEnum status) {
+        final Path<String> path = root.get("status");
+        final Predicate search = cBuilder.equal(path, status);
+
+        predicates.add(search);
+    }
+
+    private void addSourceFilter(final Root<LogAggregate> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder,
+            final SearchForEnum searchFor, final String searchForValue) {
+        if (searchFor.equals(SearchForEnum.SOURCE)) {
+            final Path<String> path = root.get("source");
+            final Predicate search = cBuilder.like(cBuilder.lower(path), addPercentCharacter(searchForValue));
+
+            predicates.add(search);
+        }
+    }
+
+    private void addSourceFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final SearchForEnum searchFor, final String searchForValue) {
+        if (searchFor.equals(SearchForEnum.SOURCE)) {
+            final Path<String> path = root.get("source");
+            final Predicate search = cBuilder.like(cBuilder.lower(path), addPercentCharacter(searchForValue));
+
+            predicates.add(search);
+        }
+
+    }
+
+    private void addLevelFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final SearchForEnum searchFor, final String searchForValue) {
+        if (searchFor.equals(SearchForEnum.LEVEL)) {
+            final Optional<Level> levelOptional = Level.getEnumByValue(searchForValue);
+            if (levelOptional.isPresent()) {
+                final Path<String> path = root.get("level");
+                final Predicate search = cBuilder.equal(path, levelOptional.get());
+
+                predicates.add(search);
+            }
+        }
+    }
+
+    private void addDescriptionFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final SearchForEnum searchFor,
+            final String searchForValue) {
+        if (searchFor.equals(SearchForEnum.DESCRIPTION)) {
+            final Path<String> titlePath = root.get("title");
+            final Predicate titleSearch = cBuilder.like(cBuilder.lower(titlePath), addPercentCharacter(searchForValue));
+
+            final Path<String> descriptionPath = root.get("description");
+            final Predicate descriptionSearch = cBuilder.like(cBuilder.lower(descriptionPath),
+                    addPercentCharacter(searchForValue));
+
+            predicates.add(cBuilder.or(titleSearch, descriptionSearch));
+        }
+    }
+
+    private void addEnvironmentFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final EnvironmentEnum environment) {
+        if (environment != null) {
+            final Path<String> path = root.get("environment");
+            predicates.add(cBuilder.equal(path, environment));
+        }
+    }
+
+    private void addStatusFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final StatusEnum status) {
+        final Path<String> path = root.get("status");
+        final Predicate search = cBuilder.equal(path, status);
+
+        predicates.add(search);
+    }
+
+    private String addPercentCharacter(final String title) {
+        return String.format("%%%s%%", title.toLowerCase());
+    }
 }

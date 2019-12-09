@@ -32,32 +32,38 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LogResource {
 
-	private LogService logService;
+    private final LogService logService;
 
-	@ApiOperation(value = "List all log aggregates", notes = "Method used to list log aggregates.")
-	@GetMapping(path = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<PageDTO<LogAggregateResponseDTO>> search(
-			@RequestParam(required = false) EnvironmentEnum environment,
-			@RequestParam(required = false) OrderByEnum orderBy,
-			@RequestParam(required = false) SearchForEnum searchFor,
-			@RequestParam(required = false) String searchForValue,
-			@RequestParam(defaultValue = "ACTIVE") StatusEnum status,
-			// pagination
-			@RequestParam(defaultValue = "0") Integer startPage, @RequestParam(defaultValue = "2") Integer pageSize) {
-		return ResponseEntity.ok(
-				logService.searchLogs(environment, orderBy, searchFor, searchForValue, status, startPage, pageSize));
-	}
+    @ApiOperation(value = "List all log aggregates", notes = "Method used to list log aggregates.")
+    @GetMapping(path = "/logs", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PageDTO<LogAggregateResponseDTO>> search(
+            @RequestParam(required = false) final EnvironmentEnum environment,
+            @RequestParam(required = false) final OrderByEnum orderBy,
+            @RequestParam(required = false) final SearchForEnum searchFor,
+            @RequestParam(required = false) final String searchForValue,
+            @RequestParam(defaultValue = "ACTIVE") final StatusEnum status,
+            // pagination
+            @RequestParam(defaultValue = "0") final Integer startPage, @RequestParam(defaultValue = "2") final Integer pageSize) {
+        return ResponseEntity.ok(
+                logService.searchLogs(environment, orderBy, searchFor, searchForValue, status, startPage, pageSize));
+    }
 
-	@ApiOperation(value = "Create a log entry", notes = "Method used to create a log entry. Use your API key to save logs.")
-	@PostMapping(path = "/logs", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<LogResponseDTO> save(@Valid @RequestBody final LogRequestDTO logDTO) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(logService.save(logDTO));
-	}
+    @ApiOperation(value = "Create a log entry", notes = "Method used to create a log entry. Use your API key to save logs.")
+    @PostMapping(path = "/logs", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LogResponseDTO> save(@Valid @RequestBody final LogRequestDTO logDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(logService.save(logDTO));
+    }
 
-	@ApiOperation(value = "Remove a log aggregate", notes = "Method used to remove a log aggregate.")
-	@DeleteMapping(path = "/logs", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void remove() {
-		// TODO Auto-generated method stub
-
-	}
+    @ApiOperation(value = "Remove a log aggregate", notes = "Method used to remove a log aggregate.")
+    @DeleteMapping(path = "/logs")
+    public void remove(
+            @RequestParam(required = false) final EnvironmentEnum environment,
+            @RequestParam(required = false) final OrderByEnum orderBy,
+            @RequestParam(required = false) final SearchForEnum searchFor,
+            @RequestParam(required = false) final String searchForValue,
+            @RequestParam(defaultValue = "ACTIVE") final StatusEnum status,
+            // pagination
+            @RequestParam(defaultValue = "0") final Integer startPage, @RequestParam(defaultValue = "2") final Integer pageSize) {
+        logService.remove(environment, searchFor, searchForValue, status);
+    }
 }
