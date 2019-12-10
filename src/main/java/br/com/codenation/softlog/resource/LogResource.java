@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,4 +67,10 @@ public class LogResource {
             @RequestParam(defaultValue = "0") final Integer startPage, @RequestParam(defaultValue = "2") final Integer pageSize) {
         logService.remove(environment, searchFor, searchForValue, status);
     }
+    
+    @ApiOperation(value = "Archive a log", notes = "Method used to Archive a log aggregate.")
+	@DeleteMapping(path = "/logs/arquive/{logId}")
+	public void archiveById(@PathVariable final Long logId) {
+		logService.archiveById(logId);
+	}
 }

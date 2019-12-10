@@ -11,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
@@ -271,4 +272,26 @@ public class LogService {
     private String addPercentCharacter(final String title) {
         return String.format("%%%s%%", title.toLowerCase());
     }
+    
+    // Transactional, to guarantee that all updates are commited together.
+ 	@Transactional
+ 	public void archiveById(Long logId) {
+ 		// get the log that aggregates all logs
+ 		Optional<Log> logAgregateOptional = logRepository.findById(logId);
+ 		if (logAgregateOptional.isPresent()) {
+ 			Log log = logAgregateOptional.get();
+
+ 			// find all logs that compose the aggregate
+ 			List<Log> logs = logRepository.findByTitleAndDescriptionAndLevelAndApiKeyAndSourceAndStatusAndEnvironment(
+ 					log.getTitle(), log.getDescription(), log.getLevel(), log.getApiKey(), log.getSource(),
+ 					log.getStatus(), log.getEnvironment());
+
+ 			// change the status of all logs
+ 			logs.forEach(l -> {
+ 				l.setStatus(StatusEnum.ARCHIVED);
+ 				logRepository.save(l);
+ 			});
+ 		}
+
+ 	}
 }
