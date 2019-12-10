@@ -65,8 +65,7 @@ public class LogService {
 
         final TypedQuery<Log> query = entityManager.createQuery(cQuery);
 
-        // execute query, get Logs
-        query.getResultList();
+        logRepository.deleteAll(query.getResultList());
     }
 
     private Predicate addFiltersToRemoveOrArchive(final Root<Log> root, final CriteriaBuilder cBuilder, final EnvironmentEnum environment, final SearchForEnum searchFor, final String searchForValue,
@@ -272,26 +271,26 @@ public class LogService {
     private String addPercentCharacter(final String title) {
         return String.format("%%%s%%", title.toLowerCase());
     }
-    
+
     // Transactional, to guarantee that all updates are commited together.
- 	@Transactional
- 	public void archiveById(Long logId) {
- 		// get the log that aggregates all logs
- 		Optional<Log> logAgregateOptional = logRepository.findById(logId);
- 		if (logAgregateOptional.isPresent()) {
- 			Log log = logAgregateOptional.get();
+    @Transactional
+    public void archiveById(final Long logId) {
+        // get the log that aggregates all logs
+        final Optional<Log> logAgregateOptional = logRepository.findById(logId);
+        if (logAgregateOptional.isPresent()) {
+            final Log log = logAgregateOptional.get();
 
- 			// find all logs that compose the aggregate
- 			List<Log> logs = logRepository.findByTitleAndDescriptionAndLevelAndApiKeyAndSourceAndStatusAndEnvironment(
- 					log.getTitle(), log.getDescription(), log.getLevel(), log.getApiKey(), log.getSource(),
- 					log.getStatus(), log.getEnvironment());
+            // find all logs that compose the aggregate
+            final List<Log> logs = logRepository.findByTitleAndDescriptionAndLevelAndApiKeyAndSourceAndStatusAndEnvironment(
+                    log.getTitle(), log.getDescription(), log.getLevel(), log.getApiKey(), log.getSource(),
+                    log.getStatus(), log.getEnvironment());
 
- 			// change the status of all logs
- 			logs.forEach(l -> {
- 				l.setStatus(StatusEnum.ARCHIVED);
- 				logRepository.save(l);
- 			});
- 		}
+            // change the status of all logs
+            logs.forEach(l -> {
+                l.setStatus(StatusEnum.ARCHIVED);
+                logRepository.save(l);
+            });
+        }
 
- 	}
+    }
 }
