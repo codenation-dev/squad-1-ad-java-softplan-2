@@ -23,12 +23,9 @@ public class AuthService {
 	public String login(LoginRequestDTO loginRequestDTO) {
 		String passwordMd5 = DigestUtils.md5DigestAsHex(loginRequestDTO.getPassword().getBytes());
 		Optional<User> userOptional = userRepository.findByEmailAndPassword(loginRequestDTO.getEmail(), passwordMd5);
-		if (userOptional.isPresent()) {
-			User user = userOptional.get();
-			CredencialsJWT credenciais = segurancaJWT.createCredencials(user.getName(), user.getEmail(), "USER");
-			return credenciais.getToken();
-		}
-		throw new NegocioException("Usuário ou senha inválidos");
+		User user = userOptional.orElseThrow(() -> new NegocioException("Usuário ou senha inválidos"));
+		CredencialsJWT credenciais = segurancaJWT.createCredencials(user.getName(), user.getEmail(), "USER");
+		return credenciais.getToken();
 	}
 
 }
