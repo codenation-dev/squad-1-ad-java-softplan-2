@@ -70,7 +70,7 @@ public class LogResource {
     }
     
     @ApiOperation(value = "Archive a log", notes = "Method used to Archive a log aggregate.")
-	@PatchMapping(path = "/logs/arquive/{logId}")
+	@PatchMapping(path = "/logs/archive/{logId}")
 	public void archiveById(@PathVariable final Long logId) {
 		logService.archiveById(logId);
 	}
