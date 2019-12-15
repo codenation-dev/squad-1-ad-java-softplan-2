@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.codenation.softlog.dto.request.LogRequestDTO;
 import br.com.codenation.softlog.dto.response.LogAggregateResponseDTO;
+import br.com.codenation.softlog.dto.response.LogDetailsDTO;
 import br.com.codenation.softlog.dto.response.LogResponseDTO;
 import br.com.codenation.softlog.dto.response.PageDTO;
 import br.com.codenation.softlog.enums.OrderByEnum;
@@ -74,4 +75,10 @@ public class LogResource {
 	public void archiveById(@PathVariable final Long logId) {
 		logService.archiveById(logId);
 	}
+    
+    @ApiOperation(value = "Details a log", notes = "Method used to Detail a log aggregate.")
+  	@GetMapping(path = "/logs/details/{logId}")
+  	public ResponseEntity<LogDetailsDTO> detailsById(@PathVariable final Long logId) {
+  		return ResponseEntity.status(HttpStatus.OK).body(logService.detailsById(logId));
+  	}
 }

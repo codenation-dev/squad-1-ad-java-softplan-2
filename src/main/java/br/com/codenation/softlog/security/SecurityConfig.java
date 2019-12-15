@@ -29,7 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			// app login
 			"/api/auth/**",
 			// create user
-			"/api/users/**" };
+			"/api/users/**"
+			};
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
