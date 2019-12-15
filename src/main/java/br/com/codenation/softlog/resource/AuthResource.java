@@ -1,7 +1,9 @@
 package br.com.codenation.softlog.resource;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,14 +15,13 @@ import br.com.codenation.softlog.dto.request.LoginRequestDTO;
 import br.com.codenation.softlog.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/api/auth")
 @Api(tags = { "Auth" })
-@AllArgsConstructor
 public class AuthResource {
 
+	@Autowired
 	private AuthService authService;
 
 	@ApiOperation(
@@ -40,7 +41,7 @@ public class AuthResource {
 	@PostMapping(
 			path = "/login",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Void> login(@RequestBody LoginRequestDTO loginRequestDTO, HttpServletResponse response) {
+	public ResponseEntity<Void> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO, HttpServletResponse response) {
 		String token = authService.login(loginRequestDTO);
 		response.addHeader("Authorization", "Bearer " + token);
 		return ResponseEntity.noContent().build();

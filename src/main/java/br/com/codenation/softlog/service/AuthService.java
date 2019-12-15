@@ -2,6 +2,7 @@ package br.com.codenation.softlog.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -11,13 +12,14 @@ import br.com.codenation.softlog.model.User;
 import br.com.codenation.softlog.repository.UserRepository;
 import br.com.codenation.softlog.security.jwt.CredencialsJWT;
 import br.com.codenation.softlog.security.jwt.SecurityJWT;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class AuthService {
 
+	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
 	private SecurityJWT segurancaJWT;
 
 	public String login(LoginRequestDTO loginRequestDTO) {
