@@ -71,13 +71,13 @@ public class LogResource {
     }
     
     @ApiOperation(value = "Archive a log", notes = "Method used to Archive a log aggregate.")
-	@PatchMapping(path = "/logs/arquive/{logId}")
+	@PatchMapping(path = "/logs/{logId}")
 	public void archiveById(@PathVariable final Long logId) {
 		logService.archiveById(logId);
 	}
     
     @ApiOperation(value = "Details a log", notes = "Method used to Detail a log aggregate.")
-  	@GetMapping(path = "/logs/details/{logId}")
+  	@GetMapping(path = "/logs/{logId}")
   	public ResponseEntity<LogDetailsDTO> detailsById(@PathVariable final Long logId) {
   		return ResponseEntity.status(HttpStatus.OK).body(logService.detailsById(logId));
   	}
