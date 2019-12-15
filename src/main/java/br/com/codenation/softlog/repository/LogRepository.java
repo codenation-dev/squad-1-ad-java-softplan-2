@@ -3,7 +3,9 @@ package br.com.codenation.softlog.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+import br.com.codenation.softlog.dto.response.LogDetailsDTO;
 import br.com.codenation.softlog.model.Log;
 import br.com.codenation.softlog.model.enums.EnvironmentEnum;
 import br.com.codenation.softlog.model.enums.Level;

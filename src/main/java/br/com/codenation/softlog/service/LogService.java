@@ -13,10 +13,12 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.codenation.softlog.dto.request.LogRequestDTO;
 import br.com.codenation.softlog.dto.response.LogAggregateResponseDTO;
+import br.com.codenation.softlog.dto.response.LogDetailsDTO;
 import br.com.codenation.softlog.dto.response.LogResponseDTO;
 import br.com.codenation.softlog.dto.response.PageDTO;
 import br.com.codenation.softlog.enums.OrderByEnum;
@@ -35,10 +37,15 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class LogService {
 
+	@Autowired
     private final LogRepository logRepository;
+	@Autowired
     private final LogMapper logMapper;
+    @Autowired
     private final LogAggregateMapper aggregateMapper;
+	@Autowired
     private final UserService userService;
+	@Autowired
     private final EntityManager entityManager;
 
     public LogResponseDTO save(final LogRequestDTO logDTO) {
@@ -46,7 +53,7 @@ public class LogService {
             // TODO: - Customizar Exceptions
             throw new RuntimeException("ApiKey not valid!");
         }
-        final Log log = logMapper.map(logDTO);
+       final Log log = logMapper.map(logDTO);
         return logMapper.map(logRepository.save(log));
     }
 
@@ -293,4 +300,17 @@ public class LogService {
         }
 
     }
+
+	public LogDetailsDTO detailsById(Long logId) {
+		
+		return (LogDetailsDTO) entityManager.createNativeQuery("SELECT log.id as id, log.level as level, log.api_key as apiKey, log.source as source, log.title as title, "
+				+ "log.description as description, u.name as user, count(1) as events, max(log.created_at) as created"
+				+ " FROM log"
+				+ " INNER JOIN user_account u"
+				+ " ON u.api_key = log.api_key"
+				+ " WHERE log.id = ?1"
+				+ " GROUP BY log.id, log.level , log.api_key, log.source, log.title, log.description, log.created_at, u.name", "LogDetailsDTO").setParameter(1, logId).getSingleResult();
+	}
+
+
 }
