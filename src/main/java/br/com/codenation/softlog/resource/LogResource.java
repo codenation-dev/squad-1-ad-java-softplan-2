@@ -1,5 +1,7 @@
 package br.com.codenation.softlog.resource;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -59,21 +61,14 @@ public class LogResource {
 
     @ApiOperation(value = "Remove a log aggregate", notes = "Method used to remove a log aggregate.")
     @DeleteMapping(path = "/logs")
-    public void remove(
-            @RequestParam(required = false) final EnvironmentEnum environment,
-            @RequestParam(required = false) final OrderByEnum orderBy,
-            @RequestParam(required = false) final SearchForEnum searchFor,
-            @RequestParam(required = false) final String searchForValue,
-            @RequestParam(defaultValue = "ACTIVE") final StatusEnum status,
-            // pagination
-            @RequestParam(defaultValue = "0") final Integer startPage, @RequestParam(defaultValue = "2") final Integer pageSize) {
-        logService.remove(environment, searchFor, searchForValue, status);
+    public void remove(@RequestParam List<Long> ids) {
+        logService.remove(ids);
     }
     
     @ApiOperation(value = "Archive a log", notes = "Method used to Archive a log aggregate.")
-	@PatchMapping(path = "/logs/{logId}")
-	public void archiveById(@PathVariable final Long logId) {
-		logService.archiveById(logId);
+	@PatchMapping(path = "/logs")
+	public void archiveById(@RequestParam List<Long> ids) {
+		logService.archiveById(ids);
 	}
     
     @ApiOperation(value = "Details a log", notes = "Method used to Detail a log aggregate.")

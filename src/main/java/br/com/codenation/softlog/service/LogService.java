@@ -61,36 +61,6 @@ public class LogService {
         return !userService.isValidApiKey(apiKey);
     }
 
-    public void remove(final EnvironmentEnum environment, final SearchForEnum searchFor, final String searchForValue, final StatusEnum status) {
-        final CriteriaBuilder cBuilder = entityManager.getCriteriaBuilder();
-        final CriteriaQuery<Log> cQuery = cBuilder.createQuery(Log.class);
-        final Root<Log> root = cQuery.from(Log.class);
-
-        final Predicate where = addFiltersToRemoveOrArchive(root, cBuilder, environment, searchFor, searchForValue, status);
-
-        cQuery.select(root).where(where);
-
-        final TypedQuery<Log> query = entityManager.createQuery(cQuery);
-
-        logRepository.deleteAll(query.getResultList());
-    }
-
-    private Predicate addFiltersToRemoveOrArchive(final Root<Log> root, final CriteriaBuilder cBuilder, final EnvironmentEnum environment, final SearchForEnum searchFor, final String searchForValue,
-            final StatusEnum status) {
-        final List<Predicate> predicates = new ArrayList<>();
-
-        addStatusFilterForRemoveOrArchive(root, predicates, cBuilder, status);
-        addEnvironmentFilterForRemoveOrArchive(root, predicates, cBuilder, environment);
-        if (searchFor != null && searchForValue != null) {
-            addDescriptionFilterForRemoveOrArchive(root, predicates, cBuilder, searchFor, searchForValue);
-            addLevelFilterForRemoveOrArchive(root, predicates, cBuilder, searchFor, searchForValue);
-            addSourceFilterForRemoveOrArchive(root, predicates, cBuilder, searchFor, searchForValue);
-        }
-
-        final Predicate where = cBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
-        return where;
-    }
-
     public PageDTO<LogAggregateResponseDTO> searchLogs(final EnvironmentEnum environment, final OrderByEnum orderBy,
             final SearchForEnum searchFor, final String searchForValue, final StatusEnum status, final Integer startPage, final Integer pageSize) {
 
@@ -225,79 +195,48 @@ public class LogService {
         }
     }
 
-    private void addSourceFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final SearchForEnum searchFor, final String searchForValue) {
-        if (searchFor.equals(SearchForEnum.SOURCE)) {
-            final Path<String> path = root.get("source");
-            final Predicate search = cBuilder.like(cBuilder.lower(path), addPercentCharacter(searchForValue));
-
-            predicates.add(search);
-        }
-
-    }
-
-    private void addLevelFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final SearchForEnum searchFor, final String searchForValue) {
-        if (searchFor.equals(SearchForEnum.LEVEL)) {
-            final Optional<Level> levelOptional = Level.getEnumByValue(searchForValue);
-            if (levelOptional.isPresent()) {
-                final Path<String> path = root.get("level");
-                final Predicate search = cBuilder.equal(path, levelOptional.get());
-
-                predicates.add(search);
-            }
-        }
-    }
-
-    private void addDescriptionFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final SearchForEnum searchFor,
-            final String searchForValue) {
-        if (searchFor.equals(SearchForEnum.DESCRIPTION)) {
-            final Path<String> titlePath = root.get("title");
-            final Predicate titleSearch = cBuilder.like(cBuilder.lower(titlePath), addPercentCharacter(searchForValue));
-
-            final Path<String> descriptionPath = root.get("description");
-            final Predicate descriptionSearch = cBuilder.like(cBuilder.lower(descriptionPath),
-                    addPercentCharacter(searchForValue));
-
-            predicates.add(cBuilder.or(titleSearch, descriptionSearch));
-        }
-    }
-
-    private void addEnvironmentFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final EnvironmentEnum environment) {
-        if (environment != null) {
-            final Path<String> path = root.get("environment");
-            predicates.add(cBuilder.equal(path, environment));
-        }
-    }
-
-    private void addStatusFilterForRemoveOrArchive(final Root<Log> root, final List<Predicate> predicates, final CriteriaBuilder cBuilder, final StatusEnum status) {
-        final Path<String> path = root.get("status");
-        final Predicate search = cBuilder.equal(path, status);
-
-        predicates.add(search);
-    }
-
     private String addPercentCharacter(final String title) {
         return String.format("%%%s%%", title.toLowerCase());
     }
 
+    // Transactional, to guarantee that all deletes are commited together.
+    @Transactional
+    public void remove(List<Long> ids) {
+    	
+    	ids.forEach(id -> {
+	    	final Optional<Log> logAgregateOptional = logRepository.findById(id);
+	        if (logAgregateOptional.isPresent()) {
+	            final Log log = logAgregateOptional.get();
+	
+	            // find all logs that compose the aggregate
+	            logRepository.deleteByTitleAndDescriptionAndLevelAndApiKeyAndSourceAndStatusAndEnvironment(
+	                    log.getTitle(), log.getDescription(), log.getLevel(), log.getApiKey(), log.getSource(),
+	                    log.getStatus(), log.getEnvironment());
+	        }
+    	});
+    }
+    
     // Transactional, to guarantee that all updates are commited together.
     @Transactional
-    public void archiveById(final Long logId) {
-        // get the log that aggregates all logs
-        final Optional<Log> logAgregateOptional = logRepository.findById(logId);
-        if (logAgregateOptional.isPresent()) {
-            final Log log = logAgregateOptional.get();
+    public void archiveById(final List<Long> ids) {
 
-            // find all logs that compose the aggregate
-            final List<Log> logs = logRepository.findByTitleAndDescriptionAndLevelAndApiKeyAndSourceAndStatusAndEnvironment(
-                    log.getTitle(), log.getDescription(), log.getLevel(), log.getApiKey(), log.getSource(),
-                    log.getStatus(), log.getEnvironment());
-
-            // change the status of all logs
-            logs.forEach(l -> {
-                l.setStatus(StatusEnum.ARCHIVED);
-                logRepository.save(l);
-            });
-        }
+    	ids.forEach(id -> {
+	    	final Optional<Log> logAgregateOptional = logRepository.findById(id);
+	        if (logAgregateOptional.isPresent()) {
+	            final Log log = logAgregateOptional.get();
+	
+	            // find all logs that compose the aggregate
+	            final List<Log> logs = logRepository.findByTitleAndDescriptionAndLevelAndApiKeyAndSourceAndStatusAndEnvironment(
+	                    log.getTitle(), log.getDescription(), log.getLevel(), log.getApiKey(), log.getSource(),
+	                    log.getStatus(), log.getEnvironment());
+	
+	            // change the status of all logs
+	            logs.forEach(l -> {
+	                l.setStatus(StatusEnum.ARCHIVED);
+	                logRepository.save(l);
+	            });
+	        }
+    	});
 
     }
 
