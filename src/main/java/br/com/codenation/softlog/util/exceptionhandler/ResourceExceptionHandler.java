@@ -30,7 +30,7 @@ public class ResourceExceptionHandler {
 
 		log.error("MethodArgumentNotValidException.", e);
 
-		ValidationError err = new ValidationError(HttpStatus.UNPROCESSABLE_ENTITY.value(), e.getMessage(),
+		ValidationError err = new ValidationError(HttpStatus.UNPROCESSABLE_ENTITY.value(), "Erro validação",
 				request.getRequestURI());
 
 		e.getBindingResult().getFieldErrors().stream().forEach(x -> err.addError(x.getField(), x.getDefaultMessage()));
