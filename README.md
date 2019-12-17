@@ -1,146 +1,118 @@
-# SOFTLOG
+# SoftLog
 
-## Infos sobre os endpoints
+## Sobre o projeto
+Esse projeto é o back-end do projeto final do curso de Java da Codenation em parceria com a Softplan.
 
-### Metodos que não precisam de autenticação
-####1. Salvar log
-POST /api/logs <br>
-parametros: <br>
-- API key do usuário (pode usar o token admin já cadastrado no banco) <br>
-- json do log <br>
+O objetivo principal do projeto é implementar um sistema para centralizar registros de erros de aplicações de onde podem ser monitorados diferentes serviços e camadas de aplicações (backend, frontend, mobile, desktop), facilitando a gestão e tomada de decisões.
 
-`{
-   "apiKey": "f0fb85c6-6165-4972-bd33-0369ebffc6ac",
-   "source": "172.16.254.1",
-   "title": "Error:(42, 52) java: cannot find symbol",
-   "description": "location: class br.com.codenation.my-app:AuthService",
-   "environment": "DEVELOPMENT",
-   "level": "ERROR"
- }`
- 
-API key: valida se a key existe no banco, para identificar se pode receber requisição <br>
+## Começando
+Essas instruções fornecerão uma cópia do projeto em execução na sua máquina para fins de desenvolvimento e teste.
 
-####2. Cadastrar usuário
-POST /api/users
+#### Pré-requisitos
 
-`{
-   "name": "Jesus Christ",
-   "email": "admin@codenation.com",
-   "password": "jesus123"
- }`
+Para rodar esse projeto no modo development você precisará ter um ambiente com Java 8+ instalado. Para utilizar a database você precisará ter instalado o Postgres ou Docker para subir uma imagem do Postgres.
 
-### Metodos que precisam de autenticação
-####3. Login
-POST /api/auth/login
+- Java 8+
+- Maven
+- Docker / Docker-Compose ou Postgres
 
-`{
-   "email": "admin@codenation.com",
-   "password": "jesus123"
- }`
-####4. Buscar log
-GET /api/logs 
+#### Instalando
+##### 1. Clonando o repositório com HTTPS
+`$ git clone https://github.com/codenation-dev/squad-1-ad-java-softplan-2.git`
 
-
-
-## 1. Requisitos (instalar)
-- java 8
-- docker / docker-compose
-
-## 2. Criar BD no Docker para rodar a aplicação, com docker-compose  
-Executar comando abaixo na pasta do projeto:  
-`docker-compose up aceleradev-postgres`
-
-Se for preciso recriar o banco devido a reescrita do flyway:
-
-`docker-compose rm --stop aceleradev-postgres`
+##### 2. Criação do banco de dados no Docker para rodar a aplicação, com docker-compose  
+Executar comando abaixo na pasta raiz do projeto:  
 
 `docker-compose up aceleradev-postgres`
-   
-## 3. Agora é possível conectar ao banco usando: 
+
+##### 3. Agora é possível conectar ao banco usando: 
 >url=jdbc:postgresql://localhost:5432/squad1_db <br>
 username=postgres <br>
 password=postgres <br>
 
-## Migrações com Flyway
+##### 4. Rodar a aplicação Spring Boot
 
-Intruções: https://flywaydb.org/documentation/migrations#naming
+Executar comando abaixo na pasta raiz do projeto:
 
-Para evoluir o banco de dados, criar scripts SQL dentro da pasta `db/migration` seguindo os critérios da instrução:
-
-- usar nomes no infinitivo;
-- separar em migrações diferentes as criações e alterações de tabela, dos inserts de dados.
-
-# Endpoints
-http://localhost:8080/swagger-ui.html
-
-# gitflow
-https://www.campingcoder.com/2018/04/how-to-use-git-flow/
-
-feature->develop->master
-
-###
--definir arquitetura
--definir modelo DDD
-
-dúvidas
--existe separação de logs por empresa/cadastro?
-
-# DDD
-## O que (funcionalidades)
-    -cadastro usuario
-        email, password, sistema gera um token
-    -login 
-    -esqueci senha
-    -resetar senha
-    -buscar logs
-        ambiente, ordem, data, buscar por (tipo selecionado/texto)
-    -apagar log
-    -arquivar log
-    -detalhar log
-        titulo, detalhes, eventos, usuário(token)
-    
-## Como (descobrir endpoints)
-    -cadastro usuario
-        -salvar email, senha, gerar token e salvar no banco de dados(tabela usuário)
-    -login
-        -validar email e senha no banco, caso exista gerar token JWT
-    -esqueci senha
-        -validar se email existe, caso sim enviar email para usuário com de resetar senha
-    -resetar senha
-        -receber nova senha e atualizar tabela usuário
-    -buscar logs GET:v1/logs/, paginado
-        Exemplos 
-        -recebe filtros 
-            ambiente GET:vi/logs/ambiente/[valor]
-            ordem GET:vi/logs/ordem/[valor]
-    
-Modelo
+`mvn spring-boot:run`
 
 
-##############################
+## Endpoints
+
+Documentação da API: http://localhost:8080/swagger-ui.html
+
+#### User
+
+* Create an User
+
+| End Point | Method | Params | URL Params | Sucess Response |
+|-----------|--------|--------|------------|-----------------|
+|/api /users|  POST  | userDTO|            |  Code: 201 - Created | 
+
+#### Log
+
+* Create a Log
+
+| End Point | Method | Params | URL Params | Sucess Response | 
+|-----------|--------|--------|------------|-----------------|
+|/api /logs  |  POST  | logDTO |           | Code: 201 - Created  | 
+
+* Get a list of log aggregates
+
+| End Point | Method | Params | URL Params | Sucess Response |
+|-----------|--------|--------|------------|-----------------|
+|/api /logs  |  GET  |        |            | Code: 200 - OK  | 
+
+* Get a log aggregate details 
+
+| End Point | Method | Params | URL Params | Sucess Response |
+|-----------|--------|--------|------------|-----------------|
+|/api /logs /{id} |  GET  |        |       | Code: 200 - OK  | 
+
+* Delete a log aggregate
+
+| End Point | Method | Params | URL Params | Sucess Response | 
+|-----------|--------|--------|------------|-----------------|
+|/api /logs  | DELETE|   id   |            |  Code: 200 - OK | 
+
+* Archive a log aggregate
+
+| End Point | Method | Params | URL Params | Sucess Response | 
+|-----------|--------|--------|------------|-----------------|
+|/api /logs  | PATCH|   id   |            |  Code: 200 - OK | 
+
+#### Auth
+
+* Login in application
+
+| End Point | Method | Params | URL Params | Sucess Response |
+|------------|---------|----------|---------------|--------------------|
+|/api /auth/login|POST |loginRequestDTO|          |  Code: 204 - No Content  | 
 
 
-resources -> service -> model
+  ## Construído com
+- [Spring boot]([https://spring.io/guides/gs/spring-boot/](https://spring.io)) - Framework
+ - [Docker]([https://www.docker.com/](https://www.docker.com/)) - Inicialização do banco de dados
+ - [JUnit]([https://junit.org/junit5/](https://junit.org/junit5/)) - Framework de testes
+ - [Heroku]([https://www.heroku.com/](https://www.heroku.com/)) - PaaS usada na produção
+ - [Postgres]([https://www.postgresql.org/](https://www.postgresql.org/)) - Banco de dados
+ - [Maven]([https://maven.apache.org/](https://maven.apache.org/)) - Gerenciador de dependências
+ - [Flyway]([https://flywaydb.org/](https://flywaydb.org/)) - Migração de banco de dados
+ - [Lombok]([https://projectlombok.org/](https://projectlombok.org/)) - Biblioteca de annotations
+ - [Swagger]([https://swagger.io/](https://swagger.io/)) - Documentação da API
+ - [Mapstruct]([https://mapstruct.org/](https://mapstruct.org/)) - Biblioteca de mapeamento
+ - [Hibernate]([https://hibernate.org/search/](https://hibernate.org/search/)) - ORM
+ - [Postman](https://www.getpostman.com/) - Testador de APIs e endpoints
+ 
 
-Application
-    service (gerenciar fluxo)
-        chamar model
+## Autores 
 
-Domain
-    model (logica) 
-        Log
-            -salvarLog
-            -removerLog
-
-Infraestrutura
-    rs (resources)
-    util
-    exceptions
-    bean
-        Log @Entity
-            -level(info, warn, error)
-                -mensagem
-                -data
-                -dispositivo
-    
-           
+ - Aguilar Figueira Dias
+ - André Guilherme Kunitz
+ - Douglas Klafke Scheibler
+ - Eduardo de Carvalho
+ - Karolini Rosine Pereira
+ 
+## Licença
+  
+Este projeto está licenciado sob a licença MIT.
