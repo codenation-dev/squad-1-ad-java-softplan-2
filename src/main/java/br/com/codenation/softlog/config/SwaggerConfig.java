@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.google.common.collect.Lists;
 
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -24,9 +23,8 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				// .apis(RequestHandlerSelectors.any())
 				.apis(RequestHandlerSelectors.basePackage("br.com.codenation")).paths(PathSelectors.any()).build()
-				// security
+				.apiInfo(metaData())
 				.securitySchemes(Lists.newArrayList(apiKey())).securityContexts(Lists.newArrayList(securityContext()));
 	}
 
@@ -44,6 +42,15 @@ public class SwaggerConfig {
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
 		authorizationScopes[0] = authorizationScope;
 		return Lists.newArrayList(new SecurityReference("JWT", authorizationScopes));
+	}
+
+	private ApiInfo metaData() {
+		return new ApiInfoBuilder()
+				.title("SoftLog API")
+				.description("SoftLog REST API from AceleraDev")
+				.version("1.0.0")
+				.contact(new Contact("Squad 1 Java Softplan 2", "https://github.com/codenation-dev/squad-1-ad-java-softplan-2", "andrekunitz@gmail.com"))
+				.build();
 	}
 
 }
